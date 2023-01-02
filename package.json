@@ -1,0 +1,19 @@
+{
+  "name": "co.voxelstudio.voxelity",
+  "version": "0.0.1",
+  "displayName": "Voxelity Core",
+  "description": "Voxelity is a comprehensive collection of helper tools for Unity developers that streamlines workflow, simplifies common tasks, and optimizes performance, making it a valuable resource for developers of all skill levels working on any size project.",
+  "documentationUrl": "https://example.com/",
+  "changelogUrl": "https://example.com/changelog.html",
+  "licensesUrl": "https://example.com/licensing.html",
+  "keywords": [
+    "voxelity",
+    "tools",
+    "help"
+  ],
+  "author": {
+    "name": "Voxel Studio",
+    "email": "info@voxelstudio.co",
+    "url": "https://www.voxelstudio.co"
+  }
+}
