@@ -96,7 +96,7 @@ namespace Voxelity.Timer
 
             RemainingSeconds -= deltaTime;
 
-            onTimerUpdate(RemainingSeconds < 0f ? 0f : RemainingSeconds);
+            onTimerUpdate?.Invoke(RemainingSeconds < 0f ? 0f : RemainingSeconds);
 
             SetName(timerName);
 

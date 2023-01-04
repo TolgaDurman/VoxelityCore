@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Security.Cryptography;
 
-namespace Voxelity.Utility.Extensions
+namespace Voxelity.Extensions.Utility
 {
     public static partial class CryptUtility
     {

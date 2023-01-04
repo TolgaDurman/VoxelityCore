@@ -2,7 +2,7 @@ using System.IO;
 using UnityEngine;
 using System.Net;
 
-namespace Voxelity.Utility.Extensions
+namespace Voxelity.Extensions.Utility
 {
     public static class CheckConnection
     {

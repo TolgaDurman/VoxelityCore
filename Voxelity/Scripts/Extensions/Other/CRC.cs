@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace Voxelity.Utility.Extensions
+namespace Voxelity.Extensions.Utility
 {
     public class CRC : HashAlgorithm
     {

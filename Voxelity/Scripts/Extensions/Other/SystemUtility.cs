@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Voxelity.Utility.Extensions
+namespace Voxelity.Extensions.Utility
 {
     public static class SystemUtility
     {

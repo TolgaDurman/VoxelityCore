@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using System.Collections;
 
-namespace Voxelity.Utility.Extensions
+namespace Voxelity.Extensions.Utility
 {
     public static class FileUtility
     {
