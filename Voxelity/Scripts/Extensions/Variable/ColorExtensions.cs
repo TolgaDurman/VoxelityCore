@@ -14,13 +14,6 @@ namespace Voxelity.Extensions
         /// <returns></returns>
         public static string ToHex(this Color self) => "#" + ColorUtility.ToHtmlStringRGB(self);
         /// <summary>
-        /// Divides the color rgba with given color rgba values. Returns new Color with specified values.
-        /// </summary>
-        /// <param name="self"></param>
-        /// <param name="color"></param>
-        /// <returns></returns>
-        public static Color DivideWith(this Color self, Color color) => new Color(self.r / color.r, self.g / color.g, self.b / color.b, self.a / color.a);
-        /// <summary>
         /// Returns new Color with same RGBA parameters after changing given r,g,b,a values.
         /// </summary>
         /// <param name="self"></param>
@@ -29,7 +22,7 @@ namespace Voxelity.Extensions
         /// <param name="b"></param>
         /// <param name="a"></param>
         /// <returns></returns>
-        public static Color With(this Color self, float? r, float? g, float? b, float? a) => new Color(r ?? self.r, g ?? self.g, b ?? self.b, a ?? self.a);
+        public static Color With(this Color self, float? r = null, float? g = null, float? b = null, float? a = null) => new Color(r ?? self.r, g ?? self.g, b ?? self.b, a ?? self.a);
         /// <summary>
         /// Returns a new Color with same gba values with given r value. 
         /// </summary>

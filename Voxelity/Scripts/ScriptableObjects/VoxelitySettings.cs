@@ -1,15 +1,15 @@
 using System.Collections.Generic;
-using System.IO;
-using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Voxelity.SO
 {
     public class VoxelitySettings : ScriptableObject
     {
-        public VoxelityManager Manager;
+        #if UNITY_EDITOR
         public const string k_VoxelitySettingsPathInPackage = "Packages/co.voxelstudio.voxelity/Voxelity/Resources/VoxelitySettings.asset";
-        public const string k_VoxelitySettingsPath = "Assets/Voxelity/Resources/VoxelitySettings.asset";
         public static VoxelitySettings GetOrCreateSettings()
         {
             var settings = AssetDatabase.LoadAssetAtPath<VoxelitySettings>(k_VoxelitySettingsPathInPackage);
@@ -21,10 +21,16 @@ namespace Voxelity.SO
             }
             return settings;
         }
+        public delegate void OnGUIMethod();
+        public List<OnGUIMethod> OnGUIMethods = new List<OnGUIMethod>();
 
-        public static SerializedObject GetSerialized()
+        public void OnInspectorGUI()
         {
-            return new SerializedObject(GetOrCreateSettings());
+            foreach (OnGUIMethod onGUIMethod in OnGUIMethods)
+            {
+                onGUIMethod.Invoke();
+            }
         }
+        #endif
     }
 }

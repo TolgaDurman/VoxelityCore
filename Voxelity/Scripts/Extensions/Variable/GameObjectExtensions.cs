@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-
 namespace Voxelity.Extensions
 {
     /// <summary>

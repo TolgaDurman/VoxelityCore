@@ -3,8 +3,8 @@
     "rootNamespace": "Voxelity.Editor",
     "references": [
         "GUID:5ea33b3cd523f49c6ab92d8eb5ce311b",
-        "GUID:f88fb04354076c646a4107a491394033",
-        "GUID:42fc1254453c88542bc94e3dfcdbf4e5"
+        "GUID:42fc1254453c88542bc94e3dfcdbf4e5",
+        "GUID:857ba3ef1883f6843b17c8100864d359"
     ],
     "includePlatforms": [
         "Editor"
