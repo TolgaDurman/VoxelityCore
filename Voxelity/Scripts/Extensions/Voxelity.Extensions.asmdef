@@ -1,6 +1,6 @@
 {
     "name": "Voxelity.Extensions",
-    "rootNamespace": "",
+    "rootNamespace": "Voxelity.Extensions",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

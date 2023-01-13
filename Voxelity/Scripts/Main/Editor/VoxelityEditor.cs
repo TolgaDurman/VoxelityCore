@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,6 +6,30 @@ namespace Voxelity.Editor
 {
     public static class VoxelityEditor
     {
+        private const string defineName = "VOXELITY_CORE";
+#if !VOXELITY_CORE
+        [InitializeOnLoadMethod]
+        private static void AddDefine()
+        {
+            AddDefine(defineName);
+        }
+        private static void AddDefine(string defineName)
+        {
+            string currentDefines = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
+            if (!currentDefines.Contains(defineName))
+            {
+                currentDefines += ";" + defineName;
+                PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, currentDefines);
+                Debug.Log("Custom define added successfully.");
+            }
+            else
+            {
+                Debug.Log("Custom define already exist.");
+            }
+        }
+#endif
+
+
         public static T GetOrCreateScriptableObject<T>(string path) where T : ScriptableObject
         {
             var so = AssetDatabase.LoadAssetAtPath<T>(path);
