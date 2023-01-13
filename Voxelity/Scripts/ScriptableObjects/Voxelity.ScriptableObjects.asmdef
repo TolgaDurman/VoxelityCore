@@ -2,7 +2,6 @@
     "name": "Voxelity.ScriptableObjects",
     "rootNamespace": "Voxelity.SO",
     "references": [
-        "GUID:776d03a35f1b52c4a9aed9f56d7b4229",
         "GUID:857ba3ef1883f6843b17c8100864d359",
         "GUID:42fc1254453c88542bc94e3dfcdbf4e5"
     ],
