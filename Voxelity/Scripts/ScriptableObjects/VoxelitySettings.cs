@@ -21,16 +21,6 @@ namespace Voxelity.SO
             }
             return settings;
         }
-        public delegate void OnGUIMethod();
-        public List<OnGUIMethod> OnGUIMethods = new List<OnGUIMethod>();
-
-        public void OnInspectorGUI()
-        {
-            foreach (OnGUIMethod onGUIMethod in OnGUIMethods)
-            {
-                onGUIMethod.Invoke();
-            }
-        }
         #endif
     }
 }

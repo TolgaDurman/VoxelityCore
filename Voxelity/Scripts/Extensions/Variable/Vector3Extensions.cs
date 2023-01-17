@@ -15,6 +15,7 @@ namespace Voxelity.Extensions
         public static Vector3Int ToVector3Int(this Vector3 input) => new Vector3Int((int)input.x, (int)input.y, (int)input.z);
         public static Vector2 ToV2(this Vector3 val) => new Vector2(val.x, val.y);
         public static Vector3 DirectionTo(this Vector3 source, Vector3 destination) => Vector3.Normalize(destination - source);
+        public static string Vector3ToString(this Vector3 self) => $"{self.x}~{self.y}~{self.z}";
 
         public static Vector3 Divide(this Vector3 source, Vector3 dividedWith) => new Vector3(source.x / dividedWith.x,
             source.y / dividedWith.y, source.z / dividedWith.z);

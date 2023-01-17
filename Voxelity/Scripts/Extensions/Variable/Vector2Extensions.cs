@@ -16,7 +16,7 @@ namespace Voxelity.Extensions
         public static Vector2Int WithY(this Vector2Int self, int y) => new Vector2Int(self.x, y);
 
         public static Vector3 ToV3(this Vector2 self, float z = 0) => new Vector3((float)self.x, (float)self.y, z);
-        public static string Vector2ToString(this Vector2 self) => $"{self.x}+{self.y}";
+        public static string Vector2ToString(this Vector2 self) => $"{self.x}~{self.y}";
 
     }
 }

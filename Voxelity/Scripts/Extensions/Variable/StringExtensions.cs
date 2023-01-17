@@ -17,8 +17,25 @@ namespace Voxelity.Extensions
         public static Vector2 ToV2(this string self)
         {
             Vector2 returned = new Vector2();
-            string[] temp = self.Split('+');
+            string[] temp = self.Split('~');
             if (temp.Length > 1)
+            {
+                returned.x = float.Parse(temp[0]);
+                returned.y = float.Parse(temp[1]);
+            }
+            return returned;
+        }
+        public static Vector3 ToV3(this string self)
+        {
+            Vector3 returned = new Vector3();
+            string[] temp = self.Split('~');
+            if (temp.Length > 2)
+            {
+                returned.x = float.Parse(temp[0]);
+                returned.y = float.Parse(temp[1]);
+                returned.z = float.Parse(temp[2]);
+            }
+            else if(temp.Length > 1)
             {
                 returned.x = float.Parse(temp[0]);
                 returned.y = float.Parse(temp[1]);
