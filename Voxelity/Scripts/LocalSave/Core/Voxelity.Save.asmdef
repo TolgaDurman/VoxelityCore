@@ -1,16 +1,17 @@
 {
     "name": "Voxelity.Save",
     "rootNamespace": "Voxelity.Save",
-    "references": [],
+    "references": [
+        "GUID:857ba3ef1883f6843b17c8100864d359",
+        "GUID:42fc1254453c88542bc94e3dfcdbf4e5"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [
-        "VOXELITY_CORE"
-    ],
+    "defineConstraints": [],
     "versionDefines": [],
     "noEngineReferences": false
 }

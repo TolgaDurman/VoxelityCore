@@ -27,9 +27,13 @@ namespace Voxelity.Extensions.Utility
             }
         }
 
-        public static void Delete(string path)
+        public static bool Delete(string path)
         {
-            File.Delete(Path.Combine(PersistentDataPath, path));
+            if(Exists(path)){
+                File.Delete(GetFullPath(path));
+                return true;
+            }
+            return false;
         }
 
         public static IEnumerator LoadStreamingAssets(string path, Action<byte[]> result)
