@@ -131,7 +131,7 @@ namespace Voxelity.Extensions.Utility
             dst = BitConverter.ToString(resultDst).Replace("-", string.Empty).ToLower();
         }
 
-        private static string CreatePassword(int count)
+        public static string CreatePassword(int count)
         {
             System.Random rand = new System.Random();
             StringBuilder sb = new StringBuilder(count);

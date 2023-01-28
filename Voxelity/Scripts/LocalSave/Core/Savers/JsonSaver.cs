@@ -6,6 +6,15 @@ namespace Voxelity.Save
 {
     public static class JsonSaver
     {
+        private const string c_Key ="JsonSaversaves";
+        private static string GetPassword()
+        {
+            if(!PlayerPrefs.HasKey(c_Key))
+            {
+                PlayerPrefs.SetString(c_Key, CryptUtility.CreatePassword(16));
+            }
+            return PlayerPrefs.GetString(c_Key);
+        }
         public static void Save<T>(string fileName, T data)
         {
             string json ="";
@@ -16,7 +25,20 @@ namespace Voxelity.Save
         {
             File.WriteAllText(fileName.WithPersistentDataPath(), data);
         }
-        public static void SaveCrypted<T>(string fileName, T data, string key)
+        public static void SaveCrypted<T>(string fileName, T data)
+        {
+            string json = JsonUtility.ToJson(data);
+
+            string encrypted;
+
+            CryptUtility.EncryptAESWithECB(json, out encrypted, GetPassword());
+
+            FileUtility.Save(fileName, bw=>
+            {
+                bw.Write(encrypted);
+            });
+        }
+        public static void SaveCrypted<T>(string fileName, T data,string key)
         {
             string json = JsonUtility.ToJson(data);
 
@@ -24,10 +46,23 @@ namespace Voxelity.Save
 
             CryptUtility.EncryptAESWithECB(json, out encrypted, key);
 
-            File.WriteAllText(fileName.WithPersistentDataPath(), encrypted);
+            FileUtility.Save(fileName, bw=>
+            {
+                bw.Write(encrypted);
+            });
         }
 
-        public static T LoadCrypted<T>(string fileName, string key)
+        public static T LoadCrypted<T>(string fileName)
+        {
+            string json = File.ReadAllText(fileName.WithPersistentDataPath());
+
+            string decrypted;
+
+            CryptUtility.DecryptAESWithECB(json, out decrypted, GetPassword());
+
+            return JsonUtility.FromJson<T>(decrypted);
+        }
+        public static T LoadCrypted<T>(string fileName,string key)
         {
             string json = File.ReadAllText(fileName.WithPersistentDataPath());
 
