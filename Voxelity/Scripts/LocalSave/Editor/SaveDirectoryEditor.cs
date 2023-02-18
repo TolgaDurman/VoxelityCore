@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using Voxelity.Editor;
 
 namespace Voxelity.Save.Editor
 {
@@ -30,8 +31,28 @@ namespace Voxelity.Save.Editor
         {
             targetObject = (SaveDirectory)target;
         }
+        private bool ShowLocked()
+        {
+            if (targetObject.lockObj)
+            {
+                VoxelityGUI.Header("LOCKED");
+                Rect textureRect = EditorGUILayout.GetControlRect(GUILayout.Width(256), GUILayout.Height(256));
+                textureRect.x = (EditorGUIUtility.currentViewWidth - 256) / 2;
+                GUI.DrawTexture(textureRect, EditorGUIUtility.FindTexture("Assets/Voxel Studio/Voxelity/Icons/Lock.png"));
+                if(VoxelityGUI.Button("Unlock",25))
+                {
+                    targetObject.lockObj =false;
+                }
+            }
+            return targetObject.lockObj;
+        }
         public override void OnInspectorGUI()
         {
+            if(ShowLocked()) return;
+            if (GUILayout.Button("Lock"))
+            {
+                targetObject.lockObj = true;
+            }
             EditorGUI.BeginDisabledGroup(true);
             base.OnInspectorGUI();
             EditorGUI.EndDisabledGroup();
@@ -41,7 +62,7 @@ namespace Voxelity.Save.Editor
 
             EditorGUILayout.BeginHorizontal();
             d_saveName = EditorGUILayout.TextField(d_saveName);
-            if(GUILayout.Button("Set Save Name"))
+            if (GUILayout.Button("Set Save Name"))
             {
                 targetObject.saveName = d_saveName;
             }
@@ -49,9 +70,9 @@ namespace Voxelity.Save.Editor
             EditorGUILayout.Space();
 
             DrawSavables();
-            
+
             EditorGUILayout.Space();
-            
+
             if (GUILayout.Button("Delete All"))
             {
                 targetObject.RemoveAll();
@@ -71,10 +92,10 @@ namespace Voxelity.Save.Editor
         private void DrawSavables()
         {
             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-            d_type = (SavableInfo.ValueTypes)GUILayout.SelectionGrid((int)d_type, tabNames,5);
+            d_type = (SavableInfo.ValueTypes)GUILayout.SelectionGrid((int)d_type, tabNames, 5);
             EditorGUILayout.Space();
             EditorGUILayout.BeginHorizontal();
-            d_name = EditorGUILayout.TextField("Name ",d_name);
+            d_name = EditorGUILayout.TextField("Name ", d_name);
             EditorGUILayout.EndHorizontal();
             switch (d_type)
             {
@@ -111,7 +132,7 @@ namespace Voxelity.Save.Editor
         private void DisplayButton<T>(SaveData<T> saved)
         {
             var buttonStyle = new GUIStyle(GUI.skin.button) { fixedHeight = 30 };
-            if (GUILayout.Button("Add Save",buttonStyle))
+            if (GUILayout.Button("Add Save", buttonStyle))
             {
                 targetObject.AddSavable(saved);
             }
@@ -121,28 +142,29 @@ namespace Voxelity.Save.Editor
         {
             foreach (var item in targetObject.Savables)
             {
-                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                VoxelityGUI.Header(item.name);
+                EditorGUILayout.BeginVertical("box");
                 SerializedObject serializedObject = new SerializedObject(item);
                 SerializedProperty serializedPropertyData = serializedObject.FindProperty("saveData");
                 EditorGUILayout.Space();
                 serializedObject.Update();
 
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.PropertyField(serializedPropertyData.FindPropertyRelative("_value"), new GUIContent("Saved Value :" + item.name), true);
-                //EditorGUILayout.LabelField("Default: " + 0); // Write default mb
-                EditorGUILayout.EndHorizontal();
-                serializedObject.ApplyModifiedProperties();
-                EditorGUILayout.Space();
+                EditorGUILayout.PropertyField(serializedPropertyData, new GUIContent("Data : "), true);
+
                 EditorGUILayout.BeginHorizontal();
                 var buttonStyle = new GUIStyle(GUI.skin.button) { margin = new RectOffset(0, 0, 5, 5) };
-                if (GUILayout.Button("Remove",buttonStyle))
+                if (GUILayout.Button("Remove", buttonStyle))
                 {
                     targetObject.RemoveSavable(item);
                     EditorGUILayout.EndHorizontal();
                     break;
                 }
                 EditorGUILayout.EndHorizontal();
+                serializedObject.ApplyModifiedProperties();
+                EditorGUILayout.EndVertical();
+                EditorGUILayout.Space();
             }
         }
+
     }
 }

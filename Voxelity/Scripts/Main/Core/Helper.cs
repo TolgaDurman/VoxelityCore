@@ -23,6 +23,11 @@ namespace Voxelity
             return WaitDictionary[time];
         }
 
+        public static Vector2 ScreenCenter
+        {
+            get => new Vector2(Screen.width / 2f, Screen.height / 2f);
+        }
+
         private static readonly Dictionary<string, Hash128> hashes = new Dictionary<string, Hash128>();
         /// <summary>
         /// Converts string value to Hash and returns it as string.
@@ -42,7 +47,7 @@ namespace Voxelity
             hashes[value] = hash;
             return hash.ToString();
         }
-        public static List<T> Find<T>(  )
+        public static List<T> Find<T>(T typeRef = default)
          {
              List<T> interfaces = new List<T>();
              GameObject[] rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();

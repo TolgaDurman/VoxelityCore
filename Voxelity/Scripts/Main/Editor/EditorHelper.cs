@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,23 +12,30 @@ namespace Voxelity.Editor
         [InitializeOnLoadMethod]
         private static void AddDefine()
         {
-            AddDefine(defineName);
-        }
-        private static void AddDefine(string defineName)
-        {
-            string currentDefines = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
-            if (!currentDefines.Contains(defineName))
-            {
-                currentDefines += ";" + defineName;
-                PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, currentDefines);
-                Debug.Log("Custom define added successfully.");
-            }
-            else
-            {
-                Debug.Log("Custom define already exist.");
-            }
+            AddSymbols(defineName);
         }
 #endif
+        public static void AddSymbols(params string[] args)
+        {
+            string definesString =
+                PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
+            List<string> allDefines = definesString.Split(';').ToList();
+            allDefines.AddRange(args.Except(allDefines));
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(
+                EditorUserBuildSettings.selectedBuildTargetGroup,
+                string.Join(";", allDefines.ToArray()));
+        }
+
+        public static void RemoveSymbols(params string[] args)
+        {
+            string definesString =
+                PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
+            List<string> allDefines = definesString.Split(';').ToList();
+            allDefines.RemoveAll(x => args.Any(y => x == y));
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(
+                EditorUserBuildSettings.selectedBuildTargetGroup,
+                string.Join(";", allDefines.ToArray()));
+        }
         public static T GetOrCreateScriptableObject<T>(string path) where T : ScriptableObject
         {
             var so = AssetDatabase.LoadAssetAtPath<T>(path);
@@ -40,7 +48,14 @@ namespace Voxelity.Editor
             return so;
         }
 
-        
+        public static void PingObject(string path)
+        {
+            Object obj = Selection.activeObject = AssetDatabase.LoadMainAssetAtPath(path);
+            EditorUtility.FocusProjectWindow();
+            EditorGUIUtility.PingObject(obj);
+        }
+
+
         public static string GetPath(string path, bool isObject = false)
         {
             string[] folderPaths = path.Split('/');

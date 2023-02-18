@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Voxelity.Editor
@@ -10,34 +11,41 @@ namespace Voxelity.Editor
         public string Description { get; private set; } = null;
         public int Priority { get; private set; } = 0;
         public Color Color { get; private set; }
+        public string MethodName{ get; private set; }
 
-        public VoxelitySettingsAttribute(string name)
+        public VoxelitySettingsAttribute(string name,[CallerMemberName] string caller = null)
         {
             Name = name;
+            MethodName = caller;
         }
-        public VoxelitySettingsAttribute(string name, int priority) : this(name)
+        public VoxelitySettingsAttribute(string name, int priority,[CallerMemberName] string caller = null) : this(name)
         {
             Priority = priority;
+            MethodName = caller;
         }
 
-        public VoxelitySettingsAttribute(string name, string description) : this(name)
+        public VoxelitySettingsAttribute(string name, string description,[CallerMemberName] string caller = null) : this(name)
         {
             Description = description;
+            MethodName = caller;
         }
 
-        public VoxelitySettingsAttribute(string name, string description, int priority) : this(name, description)
+        public VoxelitySettingsAttribute(string name, string description, int priority,[CallerMemberName] string caller = null) : this(name, description)
         {
             Priority = priority;
+            MethodName = caller;
         }
 
-        public VoxelitySettingsAttribute(string name,string description,int priority, Color color) :this(name, description,priority)
+        public VoxelitySettingsAttribute(string name,string description,int priority, Color color,[CallerMemberName] string caller = null) :this(name, description,priority)
         {
             Color = color;
+            MethodName = caller;
         }
-        public VoxelitySettingsAttribute(string name,Color color)
+        public VoxelitySettingsAttribute(string name,Color color,[CallerMemberName] string caller = null)
         {
             Name = name;
             Color = color;
+            MethodName = caller;
         }
     }
 }

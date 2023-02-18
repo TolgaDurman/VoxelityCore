@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Collections;
+using UnityEditor;
 
 namespace Voxelity.Extensions.Utility
 {
@@ -25,6 +26,10 @@ namespace Voxelity.Extensions.Utility
             {
                 SystemUtility.SafeCall(onReader, br);
             }
+        }
+        public static void CreateFolder(string path)
+        {
+            Directory.CreateDirectory(path);
         }
 
         public static bool Delete(string path)

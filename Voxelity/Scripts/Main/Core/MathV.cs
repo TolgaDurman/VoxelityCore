@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Security.Cryptography;
+using System;
 
 namespace Voxelity
 {
@@ -13,6 +15,19 @@ namespace Voxelity
         {
             return -Mathf.Abs(value);
         }
+        public static int GetRandomValue(int minValue, int maxValue)
+        {
+            using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
+            {
+                byte[] randomBytes = new byte[4];
+                rng.GetBytes(randomBytes);
+                int randomInt = BitConverter.ToInt32(randomBytes, 0);
+                randomInt = Math.Abs(randomInt);
+                int range = maxValue - minValue + 1;
+                return minValue + randomInt % range;
+            }
+        }
+
         /// <summary>
         /// Returns 0 to 1 percentage from given values.
         /// </summary>
@@ -39,8 +54,8 @@ namespace Voxelity
         /// <returns></returns>
         public static Color CombineColors(params Color[] colors)
         {
-            Color result = new Color(0,0,0,0);
-            foreach(Color c in colors)
+            Color result = new Color(0, 0, 0, 0);
+            foreach (Color c in colors)
             {
                 result += c;
             }

@@ -56,5 +56,6 @@ namespace Voxelity.Extensions
         /// </summary>
 
         public static Color random => new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1);
+        public static Color With01(this Color self) => new Color(self.r/255f,self.g/255f,self.b/255f,self.a/255f);
     }
 }

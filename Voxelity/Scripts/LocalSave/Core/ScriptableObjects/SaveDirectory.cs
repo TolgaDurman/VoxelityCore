@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System.Threading.Tasks;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -12,6 +13,7 @@ namespace Voxelity.Save
     [CreateAssetMenu(menuName = SavableInfo.c_AssetMenuHead + "Save Directory"), System.Serializable]
     public class SaveDirectory : ScriptableObject
     {
+        public bool lockObj;
         public string saveName = "SaveName.vxl";
         [SerializeField] private List<ScriptableObject> savables = new List<ScriptableObject>();
 
@@ -28,43 +30,67 @@ namespace Voxelity.Save
         private string GetSavablesToString()
         {
             string combinedJson = "";
-            foreach (var item in savables)
+            for (int i = 0; i < savables.Count; i++)
             {
-                combinedJson += JsonUtility.ToJson(item) + splitter;
+                if (savables[i] is SavableInt)
+                {
+                    string savedData = JsonUtility.ToJson(((SavableInt)savables[i]).Data);
+                    combinedJson += savedData + splitter;
+                }
+                else if (savables[i] is SavableString)
+                {
+                    string savedData = JsonUtility.ToJson(((SavableString)savables[i]).Data);
+                    combinedJson += savedData + splitter;
+                }
+                else if (savables[i] is SavableFloat)
+                {
+                    string savedData = JsonUtility.ToJson(((SavableFloat)savables[i]).Data);
+                    combinedJson += savedData + splitter;
+                }
+                else if (savables[i] is SavableBool)
+                {
+                    string savedData = JsonUtility.ToJson(((SavableBool)savables[i]).Data);
+                    combinedJson += savedData + splitter;
+                }
+                else if (savables[i] is SavableVector3)
+                {
+                    string savedData = JsonUtility.ToJson(((SavableVector3)savables[i]).Data);
+                    combinedJson += savedData + splitter;
+                }
             }
-            Debug.Log(combinedJson);
             return combinedJson;
         }
         private void SetSavesFromString(string value)
         {
             List<string> breaked = value.Split(splitter).ToList();
-            breaked.RemoveAt(breaked.Count-1);
+            breaked.RemoveAt(breaked.Count - 1);
             for (int i = 0; i < breaked.Count; i++)
             {
-                if(savables[i] is SavableInt)
+                if (savables[i] is SavableInt)
                 {
-                    ((SavableInt)savables[i]).saveData = JsonUtility.FromJson<SaveData<int>>(breaked[i]);
+                    ((SavableInt)savables[i]).Data = JsonUtility.FromJson<SaveData<int>>(breaked[i]);
                 }
-                else if(savables[i] is SavableString)
+                else if (savables[i] is SavableString)
                 {
-                    ((SavableString)savables[i]).saveData = JsonUtility.FromJson<SaveData<string>>(breaked[i]);
+                    ((SavableString)savables[i]).Data = JsonUtility.FromJson<SaveData<string>>(breaked[i]);
                 }
-                else if(savables[i] is SavableFloat)
+                else if (savables[i] is SavableFloat)
                 {
-                    ((SavableFloat)savables[i]).saveData = JsonUtility.FromJson<SaveData<float>>(breaked[i]);
+                    ((SavableFloat)savables[i]).Data = JsonUtility.FromJson<SaveData<float>>(breaked[i]);
                 }
-                else if(savables[i] is SavableBool)
+                else if (savables[i] is SavableBool)
                 {
-                    ((SavableBool)savables[i]).saveData = JsonUtility.FromJson<SaveData<bool>>(breaked[i]);
+                    ((SavableBool)savables[i]).Data = JsonUtility.FromJson<SaveData<bool>>(breaked[i]);
                 }
-                else if(savables[i] is SavableVector3)
+                else if (savables[i] is SavableVector3)
                 {
-                    ((SavableVector3)savables[i]).saveData = JsonUtility.FromJson<SaveData<Vector3>>(breaked[i]);
+                    ((SavableVector3)savables[i]).Data = JsonUtility.FromJson<SaveData<Vector3>>(breaked[i]);
                 }
             }
         }
 
-        public void SetSave(string valueName,int value)
+
+        public void SetSave(string valueName, int value)
         {
             for (int i = 0; i < savables.Count; i++)
             {
@@ -129,7 +155,7 @@ namespace Voxelity.Save
         {
             foreach (var item in savables)
             {
-                if(((SavableBase<T>)item).Data.Name == valueName)
+                if (((SavableBase<T>)item).Data.Name == valueName)
                 {
                     return ((SavableBase<T>)item).GetValue;
                 }
@@ -143,6 +169,10 @@ namespace Voxelity.Save
         }
         public void Load()
         {
+            if (!JsonSaver.Exists(saveName))
+            {
+                Save();
+            }
             SetSavesFromString(JsonSaver.LoadRaw(saveName));
         }
 
@@ -181,7 +211,7 @@ namespace Voxelity.Save
         }
         public void RemoveSavable(ScriptableObject item)
         {
-            if(savables.Contains(item))
+            if (savables.Contains(item))
             {
                 savables.Remove(item);
                 EditorUtility.SetDirty(this);

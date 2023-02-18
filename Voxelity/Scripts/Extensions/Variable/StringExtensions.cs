@@ -35,7 +35,7 @@ namespace Voxelity.Extensions
                 returned.y = float.Parse(temp[1]);
                 returned.z = float.Parse(temp[2]);
             }
-            else if(temp.Length > 1)
+            else if (temp.Length > 1)
             {
                 returned.x = float.Parse(temp[0]);
                 returned.y = float.Parse(temp[1]);
@@ -103,5 +103,30 @@ namespace Voxelity.Extensions
             return coloredSelf;
         }
 
+    }
+    [System.Serializable]
+    public struct nString
+    {
+        public nString(string value)
+            : this()
+        {
+            Value = value ?? "N/A";
+        }
+
+        public string Value
+        {
+            get;
+            private set;
+        }
+
+        public static implicit operator nString(string value)
+        {
+            return new nString(value);
+        }
+
+        public static implicit operator string(nString value)
+        {
+            return value.Value;
+        }
     }
 }

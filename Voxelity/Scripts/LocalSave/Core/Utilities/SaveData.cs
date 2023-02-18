@@ -1,28 +1,29 @@
 using System;
 using UnityEngine;
+using Voxelity.Extensions;
 
 namespace Voxelity.Save
 {
     [System.Serializable]
     public struct SaveData<T>
     {
-        [SerializeField] private string _name;
-        [SerializeField] private T _value;
+        [SerializeField] private string m_Name;
+        [SerializeField] private T m_Value;
 
         public string Name
         {
-            get => _name;
-            set => _name = value;
+            get => m_Name;
+            set => m_Name = value;
         }
         public T Value
         {
-            get => _value;
-            set => _value = value;
+            get => m_Value;
+            set => m_Value = value;
         }
         public SaveData(string name, T value)
         {
-            _name = name;
-            _value = value;
+            m_Name = name;
+            m_Value = value;
         }
     }
 }
