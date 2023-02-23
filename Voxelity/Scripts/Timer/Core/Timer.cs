@@ -1,125 +1,120 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace Voxelity.Timer
 {
-    public class Timer : MonoBehaviour
+    public class Timer
     {
-        private bool _isRunning = true;
-        private bool autoDestroy = true;
-        private bool unscaledTime = false;
-        private UnityAction onTimerEnd;
-        private UnityAction<float> onTimerUpdate;
-        private float timeOnStart;
+        private float _completeTime;
+        private float _countedTime;
+        private bool _enabled = true;
+        private bool _autoKill = true;
+        private bool _unscaledTime = false;
+        private UnityAction _onComplete;
+        private UnityAction<float> _onUpdate;
+        private UnityAction<float> _onUpdate01;
+        private Object _referenceObject;
+        private object _id;
+        public float RemainingTime
+        {
+            get => _completeTime - _countedTime;
+        }
 
-        private string timerName;
-        public float RemainingSeconds { get; private set; }
-        private void OnEnable()
+        public Timer(float completeTime, bool enabled = true)
         {
-            TimerUtility.Assign(this);
+            this._completeTime = completeTime;
+            this._enabled = enabled;
+            TimerManager.Instance.Assign(this);
         }
-        private void OnDisable()
+        public Timer SetAutoKill(bool value)
         {
-            TimerUtility.Remove(this);
-        }
-        public string TimerName
-        {
-            get { return timerName; }
-        }
-        public Timer SetId(string _name)
-        {
-            timerName = _name;
-            SetName(timerName);
-            return this;
-        }
-        public Timer OnComplete(UnityAction onEnd)
-        {
-            onTimerEnd = (onEnd);
-            return this;
-        }
-        public Timer SetTime(float time)
-        {
-            RemainingSeconds = time;
-            timeOnStart = time;
-            return this;
-        }
-        public Timer SetAutoDestroy(bool isTrue)
-        {
-            autoDestroy = isTrue;
+            _autoKill = value;
             return this;
         }
         public Timer OnUpdate(UnityAction<float> onUpdate)
         {
-            onTimerUpdate = onUpdate;
+            this._onUpdate = onUpdate;
             return this;
         }
-        public Timer SetUnscaledTime(bool isTrue)
+        public Timer OnUpdate01(UnityAction<float> onUpdate01)
         {
-            unscaledTime = isTrue;
+            this._onUpdate01 = onUpdate01;
             return this;
         }
-
-        private void Update()
+        public Timer OnComplete(UnityAction onComplete)
         {
-            if (!_isRunning) return;
-            if(unscaledTime)
-                Tick(Time.unscaledDeltaTime);
-            else if(Time.timeScale > 0)
-                Tick(Time.deltaTime);
+            this._onComplete = onComplete;
+            return this;
         }
-
-        public void AddTime(float time)
+        public Timer SetUnscaledTime(bool value)
         {
-            RemainingSeconds += time;
+            _unscaledTime = !value;
+            return this;
         }
-        public void SubtractTime(float time)
+        public Timer SetReference(Object referenceObject)
         {
-            RemainingSeconds -= time;
+            _referenceObject = referenceObject;
+            return this;
         }
-        public void KillTimer()
+        public Timer SetId(object id)
         {
-            RemainingSeconds = 0;
-            Destroy(gameObject);
+            this._id = id;
+            return this;
         }
-        public void PauseTimer()
+        public bool IsEquals(object reference)
         {
-            _isRunning = false;
+            if (_id.Equals(reference))
+                return true;
+            return false;
         }
-        public void ResumeTimer()
+        public bool IsEquals(Object reference)
         {
-            _isRunning = true;
+            if (_referenceObject == reference)
+                return true;
+            return false;
         }
-
-        public void Tick(float deltaTime)
+        public void Play() => _enabled = true;
+        public void Pause() => _enabled = false;
+        public void Reset() => _countedTime = 0;
+        public void Restart()
         {
-            if (RemainingSeconds == 0f) return;
-
-            RemainingSeconds -= deltaTime;
-
-            onTimerUpdate?.Invoke(RemainingSeconds < 0f ? 0f : RemainingSeconds);
-
-            SetName(timerName);
-
-            CheckForTimerEnd();
+            _countedTime = 0f;
+            Play();
         }
+        public void AddTime(float value) => _countedTime -= value;
 
-        private void CheckForTimerEnd()
+        public void Tick(float delta)
         {
-            if (RemainingSeconds > 0f) return;
+            if (!_enabled)
+                return;
 
-            RemainingSeconds = 0f;
+            _onUpdate?.Invoke(_countedTime);
+            _onUpdate01?.Invoke(Mathf.Clamp01(_countedTime / _completeTime));
 
-            onTimerEnd?.Invoke();
+            _countedTime += delta * (_unscaledTime ? 1f : Time.timeScale);
 
-            SetName(timerName);
-
-            if (autoDestroy)
-                KillTimer();
+            if (RemainingTime <= 0)
+                Complete(_onComplete != null);
         }
-
-        private void SetName(string _name)
+        public void Kill()
         {
-            gameObject.name = _name + " : " + RemainingSeconds.ToString("F1");
+            TimerManager.Instance.Remove(this);
+        }
+        public void Complete(bool executeOnComplete = true)
+        {
+            _enabled = false;
+            _countedTime = _completeTime;
+            
+            _onUpdate?.Invoke(_completeTime);
+            _onUpdate01?.Invoke(1f);
+            
+            if (executeOnComplete)
+                _onComplete?.Invoke();
+
+            if (!_autoKill) return;
+            Kill();
         }
     }
 }

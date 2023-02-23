@@ -30,6 +30,7 @@ namespace Voxelity
                             GameObject singletonObject = new GameObject();
                             instance = singletonObject.AddComponent<T>();
                             singletonObject.name = typeof(T).ToString() + " (Singleton)";
+                            DontDestroyOnLoad(singletonObject);
                         }
                     }
 
