@@ -45,8 +45,8 @@ namespace Voxelity.Editor.Tabs
         public static Texture TabWindowIcon
         {
             get => VoxelityGUI.isDarkTheme ?
-            AssetDatabase.LoadAssetAtPath<Texture>("Assets/Voxel Studio/Voxelity/Icons/Voxel Icon/voxel_logo_green.png") :
-            AssetDatabase.LoadAssetAtPath<Texture>("Assets/Voxel Studio/Voxelity/Icons/Voxel Icon/voxel_logo_black.png");
+            AssetDatabase.LoadAssetAtPath<Texture>("Packages/co.voxelstudio.voxelity/Voxelity/Icons/Voxel Icon/voxel_logo_green.png") :
+            AssetDatabase.LoadAssetAtPath<Texture>("Packages/co.voxelstudio.voxelity/Voxelity/Icons/Voxel Icon/voxel_logo_black.png");
         }
 
 

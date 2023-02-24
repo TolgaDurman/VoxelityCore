@@ -71,7 +71,7 @@ namespace Voxelity.Editor
                 if (www.result == UnityWebRequest.Result.Success)
                 {
                     // Parse the latest version from the response
-                    var response = JsonUtility.FromJson<GithubReleaseResponse>(www.downloadHandler.text);
+                    var response = JsonUtility.FromJson<PackageInfo>(www.downloadHandler.text);
                     if (response != null && !string.IsNullOrEmpty(response.version))
                     {
                         return new Version(response.version);
@@ -95,7 +95,7 @@ namespace Voxelity.Editor
         }
 
         [System.Serializable]
-        private class GithubReleaseResponse
+        public class PackageInfo
         {
             public string name;
             public string version;
