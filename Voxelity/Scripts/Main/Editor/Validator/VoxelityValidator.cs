@@ -42,13 +42,16 @@ namespace Voxelity.Editor
                             AddGitPackage.AddPackage(VoxelityPackageGitURL);
                         }
                     }
+                    else
+                    {
+                        Debug.Log("Voxelity Up to date");
+                    }
                 }
             }
             else
             {
                 Debug.LogError("Failed to list packages: " + packageRequest.Error.message);
             }
-            Debug.Log("Voxelity Up to date");
         }
 
         private static Version GetLatestPackageVersion()
