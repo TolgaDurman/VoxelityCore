@@ -143,40 +143,38 @@ namespace Voxelity.Editor
         }
         public static bool InLineButton(string label, Action inLine, bool isLeft = false, float width = 0, float height = 0)
         {
-            bool isPressed = false;
-            EditorGUILayout.BeginHorizontal();
-            if (isLeft)
-            {
-                inLine?.Invoke();
-            }
+            EditorGUILayout.BeginHorizontal("box");
 
+            if (!isLeft)
+                inLine?.Invoke();
+
+            bool isPressed = DisplayButton(label, width, height);
+
+            if (isLeft)
+                inLine?.Invoke();
+
+            EditorGUILayout.EndHorizontal();
+            return isPressed;
+        }
+        public static bool DisplayButton(string label, float width = 0, float height = 0)
+        {
+            bool isPressed = false;
             if (height == 0 && width == 0)
             {
-                if (GUILayout.Button(label))
-                    isPressed = true;
+                isPressed = GUILayout.Button(label);
             }
             else if (height == 0)
             {
-                if (GUILayout.Button(label, GUILayout.Width(width)))
-                    isPressed = true;
+                isPressed = GUILayout.Button(label, GUILayout.Width(width));
             }
             else if (width == 0)
             {
-                if (GUILayout.Button(label, GUILayout.Height(height)))
-                    isPressed = true;
+                isPressed = GUILayout.Button(label, GUILayout.Height(height));
             }
             else
             {
-                if (GUILayout.Button(label, GUILayout.Width(width), GUILayout.Height(height)))
-                    isPressed = true;
+                isPressed = GUILayout.Button(label, GUILayout.Width(width), GUILayout.Height(height));
             }
-
-            if (!isLeft)
-            {
-                inLine?.Invoke();
-            }
-
-            EditorGUILayout.EndHorizontal();
             return isPressed;
         }
     }

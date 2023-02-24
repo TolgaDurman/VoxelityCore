@@ -1,12 +1,15 @@
+using UnityEngine;
+
 namespace Voxelity.Save
 {
     public class SavableBool : SavableBase<bool>
     {
-        public SaveData<bool> saveData;
-        public override SaveData<bool> Data 
-        { 
-            get => saveData; 
-            set => saveData = value; 
+        [SerializeField]private SaveData<bool> saveData;
+        internal override SaveData<bool> Data
+        {
+            get => saveData;
+            set => saveData = value;
         }
+        public override bool SetValue { set { saveData.Value = value; Save(); } }
     }
 }

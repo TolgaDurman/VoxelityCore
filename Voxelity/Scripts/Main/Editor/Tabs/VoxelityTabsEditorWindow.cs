@@ -17,10 +17,23 @@ namespace Voxelity.Editor.Tabs
         private int currentTab = 0;
         private int oldTab = 0;
         private Vector2 tabScrollPos = Vector2.zero;
-        private GUIStyle tabStyle;
+        private GUIStyle TabStyle
+        {
+            get
+            {
+                return new GUIStyle(EditorStyles.miniButtonLeft)
+                {
+                    alignment = TextAnchor.MiddleLeft,
+                    fontSize = 12,
+                    fixedHeight = 30,
+                    margin = new RectOffset(1, 0, 0, 0),
+                };
+            }
+        }
         private List<GUIContent> tabContents = new List<GUIContent>();
         private Rect tabRect;
         private Rect contentRect;
+
 
 
         private Vector2 contentScrollPos = Vector2.zero;
@@ -31,8 +44,8 @@ namespace Voxelity.Editor.Tabs
         float mouseGapOnHandle;
         public static Texture TabWindowIcon
         {
-            get => VoxelityGUI.isDarkTheme ? 
-            AssetDatabase.LoadAssetAtPath<Texture>("Assets/Voxel Studio/Voxelity/Icons/Voxel Icon/voxel_logo_green.png") : 
+            get => VoxelityGUI.isDarkTheme ?
+            AssetDatabase.LoadAssetAtPath<Texture>("Assets/Voxel Studio/Voxelity/Icons/Voxel Icon/voxel_logo_green.png") :
             AssetDatabase.LoadAssetAtPath<Texture>("Assets/Voxel Studio/Voxelity/Icons/Voxel Icon/voxel_logo_black.png");
         }
 
@@ -85,25 +98,13 @@ namespace Voxelity.Editor.Tabs
             tabRect = new Rect(0, 0, tabWidth, position.height);
             EditorGUI.DrawRect(tabRect, VoxelityTabsColorSettings.instance.TabColor); //Tabs
 
-            if (tabStyle == null)
-            {
-                tabStyle = new GUIStyle(EditorStyles.miniButtonLeft)
-                {
-                    alignment = TextAnchor.MiddleLeft,
-                    fontSize = 12,
-                    fixedHeight = 30,
-                    margin = new RectOffset(1, 0, 0, 0),
-                };
-            }
-
-
             GUILayout.BeginArea(tabRect);
 
             EditorGUILayout.BeginVertical();
 
             tabScrollPos = EditorGUILayout.BeginScrollView(tabScrollPos, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
 
-            currentTab = GUILayout.SelectionGrid(currentTab, tabContents.ToArray(), 1, tabStyle);
+            currentTab = GUILayout.SelectionGrid(currentTab, tabContents.ToArray(), 1, TabStyle);
 
             if (currentTab != oldTab)
             {

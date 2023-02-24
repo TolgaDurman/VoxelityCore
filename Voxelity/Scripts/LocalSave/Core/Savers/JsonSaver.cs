@@ -80,7 +80,7 @@ namespace Voxelity.Save
         }
         public static bool Exists(string fileName)
         {
-            return FileUtility.Exists(fileName);
+            return FileUtility.Exists(fileName.WithPersistentSaveDataPath());
         }
         public static bool Exists<T>(string fileName, out T file)
         {

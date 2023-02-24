@@ -17,7 +17,7 @@ namespace Voxelity.Save
         public string saveName = "SaveName.vxl";
         [SerializeField] private List<ScriptableObject> savables = new List<ScriptableObject>();
 
-        private const string splitter = "\n~//~\n";
+        private const string splitter = "\n--\n";
         public List<ScriptableObject> Savables
         {
             get => savables;
@@ -90,7 +90,7 @@ namespace Voxelity.Save
         }
 
 
-        public void SetSave(string valueName, int value)
+        public void SetValue(string valueName, int value)
         {
             for (int i = 0; i < savables.Count; i++)
             {
@@ -102,7 +102,7 @@ namespace Voxelity.Save
             }
             throw new ArgumentException("Couldn't find the value in " + name + " named:" + valueName);
         }
-        public void SetSave(string valueName, string value)
+        public void SetValue(string valueName, string value)
         {
             for (int i = 0; i < savables.Count; i++)
             {
@@ -114,7 +114,7 @@ namespace Voxelity.Save
             }
             throw new ArgumentException("Couldn't find the value in " + name + " named:" + valueName);
         }
-        public void SetSave(string valueName, float value)
+        public void SetValue(string valueName, float value)
         {
             for (int i = 0; i < savables.Count; i++)
             {
@@ -126,7 +126,7 @@ namespace Voxelity.Save
             }
             throw new ArgumentException("Couldn't find the value in " + name + " named:" + valueName);
         }
-        public void SetSave(string valueName, bool value)
+        public void SetValue(string valueName, bool value)
         {
             for (int i = 0; i < savables.Count; i++)
             {
@@ -138,7 +138,7 @@ namespace Voxelity.Save
             }
             throw new ArgumentException("Couldn't find the value in " + name + " named:" + valueName);
         }
-        public void SetSave(string valueName, Vector3 value)
+        public void SetValue(string valueName, Vector3 value)
         {
             for (int i = 0; i < savables.Count; i++)
             {
@@ -171,6 +171,7 @@ namespace Voxelity.Save
         {
             if (!JsonSaver.Exists(saveName))
             {
+                Debug.Log("save created");
                 Save();
             }
             SetSavesFromString(JsonSaver.LoadRaw(saveName));
@@ -203,6 +204,7 @@ namespace Voxelity.Save
             }
             ((SavableBase<T>)addedObj).Data = data;
             addedObj.name = data.Name;
+            ((SavableBase<T>)addedObj).directory = this;
             AssetDatabase.SaveAssetIfDirty(addedObj);
             savables.Add(addedObj);
             AssetDatabase.AddObjectToAsset(addedObj, this);

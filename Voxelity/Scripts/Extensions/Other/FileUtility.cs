@@ -64,7 +64,7 @@ namespace Voxelity.Extensions.Utility
 
         public static bool Exists(string path)
         {
-            return File.Exists(GetFullPath(path));
+            return File.Exists(path);
         }
 
         public static string GetFullPath(string path)
