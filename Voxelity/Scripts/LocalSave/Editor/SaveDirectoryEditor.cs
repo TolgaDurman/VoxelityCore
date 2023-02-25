@@ -39,16 +39,16 @@ namespace Voxelity.Save.Editor
                 Rect textureRect = EditorGUILayout.GetControlRect(GUILayout.Width(256), GUILayout.Height(256));
                 textureRect.x = (EditorGUIUtility.currentViewWidth - 256) / 2;
                 GUI.DrawTexture(textureRect, EditorGUIUtility.FindTexture("Assets/Voxel Studio/Voxelity/Icons/Lock.png"));
-                if(VoxelityGUI.Button("Unlock",25))
+                if (VoxelityGUI.Button("Unlock", 25))
                 {
-                    targetObject.lockObj =false;
+                    targetObject.lockObj = false;
                 }
             }
             return targetObject.lockObj;
         }
         public override void OnInspectorGUI()
         {
-            if(ShowLocked()) return;
+            if (ShowLocked()) return;
             if (GUILayout.Button("Lock"))
             {
                 targetObject.lockObj = true;
@@ -59,13 +59,19 @@ namespace Voxelity.Save.Editor
 
             var style = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Bold, fontSize = 12 };
             EditorGUILayout.LabelField("Value Settings", style);
-
+            if (targetObject.saveName == "")
+                EditorGUILayout.HelpBox("Set the name of the file to use properties.", MessageType.Warning);
+            
             EditorGUILayout.BeginHorizontal();
+
             d_saveName = EditorGUILayout.TextField(d_saveName);
             if (GUILayout.Button("Set Save Name"))
             {
                 targetObject.saveName = d_saveName;
             }
+            if (targetObject.saveName == "")
+                EditorGUI.BeginDisabledGroup(true);
+
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.Space();
 

@@ -14,7 +14,7 @@ namespace Voxelity.Save
     public class SaveDirectory : ScriptableObject
     {
         public bool lockObj;
-        public string saveName = "SaveName.vxl";
+        public string saveName = "";
         [SerializeField] private List<ScriptableObject> savables = new List<ScriptableObject>();
 
         private const string splitter = "\n--\n";
