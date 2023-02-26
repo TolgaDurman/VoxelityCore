@@ -63,6 +63,7 @@ namespace Voxelity.Editor.Tabs
             tabContents.Clear();
             InitializeTabs();
             OrderTabs();
+            voxelityTabs[currentTab].OnSelected();
         }
         private void InitializeTabs()
         {

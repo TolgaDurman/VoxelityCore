@@ -16,7 +16,7 @@ namespace Voxelity.Save.Editor
         bool d_bool;
         Vector3 d_vector3;
         string d_name;
-        SaveDirectory targetObject;
+        public SaveDirectory targetObject;
         string d_saveName;
         string[] tabNames = new string[5]
         {
@@ -38,7 +38,7 @@ namespace Voxelity.Save.Editor
                 VoxelityGUI.Header("LOCKED");
                 Rect textureRect = EditorGUILayout.GetControlRect(GUILayout.Width(256), GUILayout.Height(256));
                 textureRect.x = (EditorGUIUtility.currentViewWidth - 256) / 2;
-                GUI.DrawTexture(textureRect, EditorGUIUtility.FindTexture("Assets/Voxel Studio/Voxelity/Icons/Lock.png"));
+                GUI.DrawTexture(textureRect, EditorGUIUtility.FindTexture("Packages/co.voxelstudio.voxelity/Voxelity/Icon/Lock.png"));
                 if (VoxelityGUI.Button("Unlock", 25))
                 {
                     targetObject.lockObj = false;

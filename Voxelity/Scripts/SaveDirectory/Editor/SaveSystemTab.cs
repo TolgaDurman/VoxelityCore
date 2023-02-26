@@ -11,6 +11,11 @@ namespace Voxelity.Save.Editor
 {
     public class SaveSystemTab : VoxelityTab
     {
+        private static List<SaveDirectory> cachedSaveDirectories = new List<SaveDirectory>();
+        private bool[] foldouts;
+        private UnityEditor.Editor[] editors;
+
+        private VoxelityTabSetting tabSettings = new VoxelityTabSetting("Saves", -101);
         [InitializeOnLoadMethod]
         public static void Initialize()
         {
@@ -19,6 +24,21 @@ namespace Voxelity.Save.Editor
                 FileUtility.CreateFolder(SavableInfo.SavePath);
             }
         }
+        public override void OnSelected()
+        {
+            Refresh();
+        }
+        private void Refresh()
+        {
+            cachedSaveDirectories.Clear();
+            foreach (var item in Resources.FindObjectsOfTypeAll<SaveDirectory>())
+            {
+                cachedSaveDirectories.Add(item);
+            }
+            foldouts = new bool[cachedSaveDirectories.Count];
+            editors = new UnityEditor.Editor[cachedSaveDirectories.Count];
+        }
+
 
         public override void OnGUI()
         {
@@ -35,11 +55,36 @@ namespace Voxelity.Save.Editor
                     }
                 }
             }
+            EditorGUILayout.BeginVertical("box");
+            if (VoxelityGUI.InLineButton("Refresh", () =>
+            {
+                VoxelityGUI.Header("Save Directories in Resources", false);
+            },width:60))
+            {
+                Refresh();
+            }
+            for (int i = 0; i < cachedSaveDirectories.Count; i++)
+            {
+                if (cachedSaveDirectories[i] == null)
+                {
+                    Refresh();
+                    EditorGUILayout.EndVertical();
+                    return;
+                }
+                VoxelityGUI.Line();
+                foldouts[i] = EditorGUILayout.Foldout(foldouts[i], cachedSaveDirectories[i].name);
+                if (foldouts[i])
+                {
+                    UnityEditor.Editor.CreateCachedEditor(cachedSaveDirectories[i], typeof(SaveDirectoryEditor), ref editors[i]);
+                    editors[i].OnInspectorGUI();
+                }
+            }
+            EditorGUILayout.EndVertical();
         }
 
         public override VoxelityTabSetting TabSettings()
         {
-            return new VoxelityTabSetting("Saves", -101);
+            return tabSettings;
         }
     }
 }
