@@ -3,14 +3,9 @@ using UnityEngine;
 namespace Voxelity.Save
 {
     [System.Serializable]
-    public class SavableInt : SavableBase<int>
+    public class SavableInt : Savable<int>
     {
-        [SerializeField]private SaveData<int> saveData;
-        internal override SaveData<int> Data
-        { 
-            get => saveData; 
-            set => saveData = value; 
-        }
-        public override int SetValue { set { saveData.Value = value; Save(); } }
+        [SerializeField] private int value;
+        public override int Value { get => value; set => this.value = value; }
     }
 }

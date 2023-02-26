@@ -5,29 +5,34 @@ using UnityEngine;
 namespace Voxelity.Save
 {
     [System.Serializable]
-    public abstract class SavableBase<T> : ScriptableObject
+    public abstract class Savable<T> : Savables
     {
         internal SaveDirectory directory;
-        internal abstract SaveData<T> Data { get; set; }
-        public T GetValue
+        public abstract T Value
         {
-            get
-            {
-                Load();
-                return Data.Value;
-            }
-        }
-        public abstract T SetValue
-        {
+            get;
             set;
         }
-        internal void Save()
+        public override void Save()
         {
             directory.Save();
         }
-        internal void Load()
+        public override void Load()
         {
             directory.Load();
+        }
+    }
+    [System.Serializable]
+    public abstract class Savables : ScriptableObject
+    {
+        public abstract void Save();
+        public abstract void Load();
+    }
+    public static class SavableExtension
+    {
+        public static T To<T>(this Savables self) where T : Savables
+        {
+            return (T)self;
         }
     }
 }

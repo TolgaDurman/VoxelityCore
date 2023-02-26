@@ -5,7 +5,7 @@ using UnityEditor;
 
 namespace Voxelity.Save.Editor
 {
-    [CustomEditor(typeof(SavableBase<>),true)]
+    [CustomEditor(typeof(Savable<>),true)]
     public class SavableBaseEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()

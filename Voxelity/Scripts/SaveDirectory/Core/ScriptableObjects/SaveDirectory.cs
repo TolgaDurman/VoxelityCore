@@ -13,16 +13,20 @@ namespace Voxelity.Save
     {
         public bool lockObj;
         public string saveName = "";
-        [SerializeField] private List<ScriptableObject> savables = new List<ScriptableObject>();
+        [SerializeField] private List<Savables> savables = new List<Savables>();
 
-        private const string splitter = "\n--\n";
-        public List<ScriptableObject> Savables
+        private const string splitter = "\n,";
+        public List<Savables> Savables
         {
             get => savables;
         }
         public void DeleteSaveFiles()
         {
             JsonSaver.Delete(saveName);
+        }
+        public Savables GetSavable(string name)
+        {
+            return Savables.Find(x => x.name == name);
         }
 
         private string GetSavablesToString()
@@ -32,27 +36,27 @@ namespace Voxelity.Save
             {
                 if (savables[i] is SavableInt)
                 {
-                    string savedData = JsonUtility.ToJson(((SavableInt)savables[i]).Data);
+                    string savedData = JsonUtility.ToJson( new SaveData<int>(savables[i].name,((SavableInt)savables[i]).Value) );
                     combinedJson += savedData + splitter;
                 }
                 else if (savables[i] is SavableString)
                 {
-                    string savedData = JsonUtility.ToJson(((SavableString)savables[i]).Data);
+                    string savedData = JsonUtility.ToJson(new SaveData<string>(savables[i].name,((SavableString)savables[i]).Value));
                     combinedJson += savedData + splitter;
                 }
                 else if (savables[i] is SavableFloat)
                 {
-                    string savedData = JsonUtility.ToJson(((SavableFloat)savables[i]).Data);
+                    string savedData = JsonUtility.ToJson(new SaveData<float>(savables[i].name,((SavableFloat)savables[i]).Value));
                     combinedJson += savedData + splitter;
                 }
                 else if (savables[i] is SavableBool)
                 {
-                    string savedData = JsonUtility.ToJson(((SavableBool)savables[i]).Data);
+                    string savedData = JsonUtility.ToJson(new SaveData<bool>(savables[i].name,((SavableBool)savables[i]).Value));
                     combinedJson += savedData + splitter;
                 }
                 else if (savables[i] is SavableVector3)
                 {
-                    string savedData = JsonUtility.ToJson(((SavableVector3)savables[i]).Data);
+                    string savedData = JsonUtility.ToJson(new SaveData<Vector3>(savables[i].name,((SavableVector3)savables[i]).Value));
                     combinedJson += savedData + splitter;
                 }
             }
@@ -66,99 +70,25 @@ namespace Voxelity.Save
             {
                 if (savables[i] is SavableInt)
                 {
-                    ((SavableInt)savables[i]).Data = JsonUtility.FromJson<SaveData<int>>(breaked[i]);
+                    ((SavableInt)savables[i]).Value = JsonUtility.FromJson<SaveData<int>>(breaked[i]).Value;
                 }
                 else if (savables[i] is SavableString)
                 {
-                    ((SavableString)savables[i]).Data = JsonUtility.FromJson<SaveData<string>>(breaked[i]);
+                    ((SavableString)savables[i]).Value = JsonUtility.FromJson<SaveData<string>>(breaked[i]).Value;
                 }
                 else if (savables[i] is SavableFloat)
                 {
-                    ((SavableFloat)savables[i]).Data = JsonUtility.FromJson<SaveData<float>>(breaked[i]);
+                    ((SavableFloat)savables[i]).Value = JsonUtility.FromJson<SaveData<float>>(breaked[i]).Value;
                 }
                 else if (savables[i] is SavableBool)
                 {
-                    ((SavableBool)savables[i]).Data = JsonUtility.FromJson<SaveData<bool>>(breaked[i]);
+                    ((SavableBool)savables[i]).Value = JsonUtility.FromJson<SaveData<bool>>(breaked[i]).Value;
                 }
                 else if (savables[i] is SavableVector3)
                 {
-                    ((SavableVector3)savables[i]).Data = JsonUtility.FromJson<SaveData<Vector3>>(breaked[i]);
+                    ((SavableVector3)savables[i]).Value = JsonUtility.FromJson<SaveData<Vector3>>(breaked[i]).Value;
                 }
             }
-        }
-
-
-        public void SetValue(string valueName, int value)
-        {
-            for (int i = 0; i < savables.Count; i++)
-            {
-                if (savables[i] is not SavableInt) continue;
-                if (((SavableInt)savables[i]).Data.Name != valueName) continue;
-                ((SavableInt)savables[i]).Data = new SaveData<int>(valueName, value);
-                Save();
-                return;
-            }
-            throw new ArgumentException("Couldn't find the value in " + name + " named:" + valueName);
-        }
-        public void SetValue(string valueName, string value)
-        {
-            for (int i = 0; i < savables.Count; i++)
-            {
-                if (savables[i] is not SavableString) continue;
-                if (((SavableString)savables[i]).Data.Name != valueName) continue;
-                ((SavableString)savables[i]).Data = new SaveData<string>(valueName, value);
-                Save();
-                return;
-            }
-            throw new ArgumentException("Couldn't find the value in " + name + " named:" + valueName);
-        }
-        public void SetValue(string valueName, float value)
-        {
-            for (int i = 0; i < savables.Count; i++)
-            {
-                if (savables[i] is not SavableFloat) continue;
-                if (((SavableFloat)savables[i]).Data.Name != valueName) continue;
-                ((SavableFloat)savables[i]).Data = new SaveData<float>(valueName, value);
-                Save();
-                return;
-            }
-            throw new ArgumentException("Couldn't find the value in " + name + " named:" + valueName);
-        }
-        public void SetValue(string valueName, bool value)
-        {
-            for (int i = 0; i < savables.Count; i++)
-            {
-                if (savables[i] is not SavableBool) continue;
-                if (((SavableBool)savables[i]).Data.Name != valueName) continue;
-                ((SavableBool)savables[i]).Data = new SaveData<bool>(valueName, value);
-                Save();
-                return;
-            }
-            throw new ArgumentException("Couldn't find the value in " + name + " named:" + valueName);
-        }
-        public void SetValue(string valueName, Vector3 value)
-        {
-            for (int i = 0; i < savables.Count; i++)
-            {
-                if (savables[i] is not SavableVector3) continue;
-                if (((SavableVector3)savables[i]).Data.Name != valueName) continue;
-                ((SavableVector3)savables[i]).Data = new SaveData<Vector3>(valueName, value);
-                Save();
-                return;
-            }
-            throw new ArgumentException("Couldn't find the value in " + name + " named:" + valueName);
-        }
-
-        public T GetValue<T>(string valueName)
-        {
-            foreach (var item in savables)
-            {
-                if (((SavableBase<T>)item).Data.Name == valueName)
-                {
-                    return ((SavableBase<T>)item).GetValue;
-                }
-            }
-            throw new ArgumentException("Couldn't find the value in " + name + " named:" + valueName);
         }
 
         public void Save()
@@ -179,7 +109,7 @@ namespace Voxelity.Save
         public void AddSavable<T>(SaveData<T> data)
         {
             EditorUtility.SetDirty(this);
-            ScriptableObject addedObj = null;
+            Savables addedObj = null;
             switch (data.Value)
             {
                 case int i:
@@ -200,16 +130,16 @@ namespace Voxelity.Save
                 default:
                     throw new ArgumentException("Invalid value type");
             }
-            ((SavableBase<T>)addedObj).Data = data;
+            ((Savable<T>)addedObj).Value = data.Value;
             addedObj.name = data.Name;
-            ((SavableBase<T>)addedObj).directory = this;
+            ((Savable<T>)addedObj).directory = this;
             AssetDatabase.SaveAssetIfDirty(addedObj);
             savables.Add(addedObj);
             AssetDatabase.AddObjectToAsset(addedObj, this);
             AssetDatabase.SaveAssetIfDirty(this);
             AssetDatabase.Refresh();
         }
-        public void RemoveSavable(ScriptableObject item)
+        public void RemoveSavable(Savables item)
         {
             if (savables.Contains(item))
             {
@@ -219,6 +149,7 @@ namespace Voxelity.Save
                 GameObject.DestroyImmediate(item);
                 AssetDatabase.SaveAssetIfDirty(this);
                 AssetDatabase.Refresh();
+                Save();
             }
         }
         public void RemoveAll()
@@ -232,6 +163,7 @@ namespace Voxelity.Save
             AssetDatabase.SaveAssetIfDirty(this);
             AssetDatabase.Refresh();
             savables.Clear();
+            DeleteSaveFiles();
         }
 #endif
     }

@@ -16,7 +16,10 @@ namespace Voxelity.Save.Editor
         bool d_bool;
         Vector3 d_vector3;
         string d_name;
-        public SaveDirectory targetObject;
+        public SaveDirectory targetObject
+        {
+            get => (SaveDirectory)target;
+        }
         string d_saveName;
         string[] tabNames = new string[5]
         {
@@ -26,11 +29,6 @@ namespace Voxelity.Save.Editor
             "Bool",
             "Vector3",
         };
-
-        private void OnEnable()
-        {
-            targetObject = (SaveDirectory)target;
-        }
         private bool ShowLocked()
         {
             if (targetObject.lockObj)
@@ -61,7 +59,7 @@ namespace Voxelity.Save.Editor
             EditorGUILayout.LabelField("Value Settings", style);
             if (targetObject.saveName == "")
                 EditorGUILayout.HelpBox("Set the name of the file to use properties.", MessageType.Warning);
-            
+
             EditorGUILayout.BeginHorizontal();
 
             d_saveName = EditorGUILayout.TextField(d_saveName);
@@ -148,14 +146,14 @@ namespace Voxelity.Save.Editor
         {
             foreach (var item in targetObject.Savables)
             {
-                VoxelityGUI.Header(item.name);
+                VoxelityGUI.Line();
                 EditorGUILayout.BeginVertical("box");
                 SerializedObject serializedObject = new SerializedObject(item);
-                SerializedProperty serializedPropertyData = serializedObject.FindProperty("saveData");
+                SerializedProperty serializedPropertyData = serializedObject.FindProperty("value");
                 EditorGUILayout.Space();
                 serializedObject.Update();
 
-                EditorGUILayout.PropertyField(serializedPropertyData, new GUIContent("Data : "), true);
+                EditorGUILayout.PropertyField(serializedPropertyData, new GUIContent(item.name + " : "), true);
 
                 EditorGUILayout.BeginHorizontal();
                 var buttonStyle = new GUIStyle(GUI.skin.button) { margin = new RectOffset(0, 0, 5, 5) };
@@ -163,6 +161,7 @@ namespace Voxelity.Save.Editor
                 {
                     targetObject.RemoveSavable(item);
                     EditorGUILayout.EndHorizontal();
+                    EditorGUILayout.EndVertical();
                     break;
                 }
                 EditorGUILayout.EndHorizontal();

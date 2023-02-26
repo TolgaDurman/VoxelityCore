@@ -6,12 +6,13 @@ using UnityEngine;
 using Voxelity.Editor;
 using Voxelity.Extensions.Utility;
 using Voxelity.Editor.Tabs;
+using System.Threading;
 
 namespace Voxelity.Save.Editor
 {
     public class SaveSystemTab : VoxelityTab
     {
-        private static List<SaveDirectory> cachedSaveDirectories = new List<SaveDirectory>();
+        private SaveDirectory[] cachedSaveDirectories;
         private bool[] foldouts;
         private UnityEditor.Editor[] editors;
 
@@ -30,13 +31,15 @@ namespace Voxelity.Save.Editor
         }
         private void Refresh()
         {
-            cachedSaveDirectories.Clear();
+            cachedSaveDirectories = new SaveDirectory[0];
             foreach (var item in Resources.FindObjectsOfTypeAll<SaveDirectory>())
             {
-                cachedSaveDirectories.Add(item);
+                if (item.name != "LevelSaves")
+                    ArrayUtility.Add(ref cachedSaveDirectories, item);
             }
-            foldouts = new bool[cachedSaveDirectories.Count];
-            editors = new UnityEditor.Editor[cachedSaveDirectories.Count];
+            foldouts = new bool[cachedSaveDirectories.Length];
+            editors = new UnityEditor.Editor[cachedSaveDirectories.Length];
+            Repaint();
         }
 
 
@@ -59,20 +62,32 @@ namespace Voxelity.Save.Editor
             if (VoxelityGUI.InLineButton("Refresh", () =>
             {
                 VoxelityGUI.Header("Save Directories in Resources", false);
-            },width:60))
+            }, width: 60))
             {
                 Refresh();
             }
-            for (int i = 0; i < cachedSaveDirectories.Count; i++)
+
+            for (int i = 0; i < cachedSaveDirectories.Length; i++)
             {
                 if (cachedSaveDirectories[i] == null)
                 {
                     Refresh();
                     EditorGUILayout.EndVertical();
+                    AssetDatabase.Refresh();
                     return;
                 }
                 VoxelityGUI.Line();
-                foldouts[i] = EditorGUILayout.Foldout(foldouts[i], cachedSaveDirectories[i].name);
+                if (VoxelityGUI.InLineButton("X", () =>
+                {
+                    foldouts[i] = EditorGUILayout.Foldout(foldouts[i], cachedSaveDirectories[i].name, toggleOnLabelClick: true);
+                },width:20,height:13))
+                {
+                    cachedSaveDirectories[i].RemoveAll();
+                    AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(cachedSaveDirectories[i]));
+                    Refresh();
+                    AssetDatabase.Refresh();
+                    break;
+                }
                 if (foldouts[i])
                 {
                     UnityEditor.Editor.CreateCachedEditor(cachedSaveDirectories[i], typeof(SaveDirectoryEditor), ref editors[i]);
