@@ -39,9 +39,7 @@ namespace Voxelity.Save.Editor
             }
             foldouts = new bool[cachedSaveDirectories.Length];
             editors = new UnityEditor.Editor[cachedSaveDirectories.Length];
-            Repaint();
         }
-
 
         public override void OnGUI()
         {

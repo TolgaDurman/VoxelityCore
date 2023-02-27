@@ -9,10 +9,5 @@ namespace Voxelity.Editor.Tabs
         public virtual void OnSelected() { }
         public abstract void OnGUI();
         public abstract VoxelityTabSetting TabSettings();
-        public virtual void Repaint()
-        {
-            EditorWindow window = EditorWindow.GetWindow<VoxelityTabsEditorWindow>();
-            window.Repaint();
-        }
     }
 }
