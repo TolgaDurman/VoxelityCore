@@ -58,6 +58,16 @@ namespace Voxelity.Editor
             };
             return GUILayout.Button(text, style);
         }
+        public static void Button(Action doOn, string text = "",int heigh = 15)
+        {
+            if(text == "")
+                text = doOn.Method.Name;
+            
+            if(Button(text, heigh))
+            {
+                doOn?.Invoke();
+            }
+        }
         public static bool AskUserDialog(string header, string text, string accepted = "Yes", string declined = "No")
         {
             return EditorUtility.DisplayDialog(header, text, accepted, declined);
