@@ -151,9 +151,10 @@ namespace Voxelity.Editor
             }
             serializedObject.ApplyModifiedProperties();
         }
-        public static bool InLineButton(string label, Action inLine, bool isLeft = false, float width = 0, float height = 0)
+        public static bool InLineButton(string label, Action inLine, bool isLeft = false, float width = 0, float height = 0,bool inBox = true)
         {
-            EditorGUILayout.BeginHorizontal("box");
+            if(inBox)
+                EditorGUILayout.BeginHorizontal("box");
 
             if (!isLeft)
                 inLine?.Invoke();
@@ -162,8 +163,8 @@ namespace Voxelity.Editor
 
             if (isLeft)
                 inLine?.Invoke();
-
-            EditorGUILayout.EndHorizontal();
+            if(inBox)
+                EditorGUILayout.EndHorizontal();
             return isPressed;
         }
         public static bool DisplayButton(string label, float width = 0, float height = 0)
