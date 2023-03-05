@@ -46,12 +46,12 @@ namespace Voxelity.Editor
         {
             return GUILayout.Button(text, styles);
         }
-        public static void Button(Action doOn, string text = "")
+        public static void Button(Action doOn, string text = "",params GUILayoutOption[] styles)
         {
             if (text == "")
                 text = doOn.Method.Name;
 
-            if (Button(text))
+            if (Button(text,styles))
             {
                 doOn?.Invoke();
             }
