@@ -126,10 +126,20 @@ namespace Voxelity.Editor.Tabs
             EditorGUI.DrawRect(contentRect, VoxelityTabsColorSettings.instance.TabContentColor);
 
             GUILayout.BeginArea(contentRect);
-
+            GUIStyle windowStyle = new GUIStyle("window")
+            {
+                name = voxelityTabs[currentTab].TabSettings().name,
+                fontStyle = FontStyle.Bold,
+                fontSize = 15,
+        };
+            GUILayout.BeginVertical(voxelityTabs[currentTab].TabSettings().name, windowStyle);
+            GUILayout.Space(10);
+            VoxelityGUI.Line(2f);
             contentScrollPos = EditorGUILayout.BeginScrollView(contentScrollPos, GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(true));
 
             voxelityTabs[currentTab].OnGUI();
+
+            GUILayout.EndVertical();
 
             EditorGUILayout.EndScrollView();
 

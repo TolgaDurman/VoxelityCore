@@ -43,10 +43,9 @@ namespace Voxelity.Save.Editor
 
         public override void OnGUI()
         {
-            VoxelityGUI.Header("Save Helper");
-            if (VoxelityGUI.Button("Open save path", 30))
+            if (VoxelityGUI.Button("Open save path", GUILayout.Height(30)))
                 OpenDirectory.OpenPersistentDataPath();
-            if (VoxelityGUI.Button("Delete all saves", 30))
+            if (VoxelityGUI.Button("Delete all saves", GUILayout.Height(30)))
             {
                 if (VoxelityGUI.AskUserDialog("Delete all save files", "Are you sure?"))
                 {
@@ -60,7 +59,7 @@ namespace Voxelity.Save.Editor
             if (VoxelityGUI.InLineButton("Refresh", () =>
             {
                 VoxelityGUI.Header("Save Directories in Resources", false);
-            }, width: 60))
+            }, layoutOptions: GUILayout.Width(50)))
             {
                 Refresh();
             }
@@ -78,7 +77,7 @@ namespace Voxelity.Save.Editor
                 if (VoxelityGUI.InLineButton("X", () =>
                 {
                     foldouts[i] = EditorGUILayout.Foldout(foldouts[i], cachedSaveDirectories[i].name, toggleOnLabelClick: true);
-                },width:20,height:13))
+                },false , GUILayout.Width(20),GUILayout.Height(13)))
                 {
                     cachedSaveDirectories[i].RemoveAll();
                     AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(cachedSaveDirectories[i]));

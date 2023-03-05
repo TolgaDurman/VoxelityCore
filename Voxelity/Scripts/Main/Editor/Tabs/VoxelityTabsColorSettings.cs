@@ -50,7 +50,7 @@ namespace Voxelity.Editor.Tabs
             if(VoxelityGUI.InLineButton("Reset",()=>
             {
                 EditorGUILayout.Space();
-            },width:50))
+            }, false , GUILayout.Width(50)))
             {
                 if(VoxelityGUI.AskUserDialog("Reset colors", "Do you want to reset tab colors to default?"))
                 {

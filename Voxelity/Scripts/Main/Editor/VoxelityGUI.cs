@@ -13,27 +13,19 @@ namespace Voxelity.Editor
     {
         public static string[] BoolNames = new string[2] { "False", "True" };
         public static string[] ActiveNames = new string[2] { "Disabled", "Active" };
-        private static Dictionary<Color, Texture2D> textureCache = new Dictionary<Color, Texture2D>();
 
         public static bool isDarkTheme
         {
             get => EditorGUIUtility.isProSkin;
         }
+        public static Color LineColor = new Color(0f, 0f, 0f, 0.1f);
 
         public static Texture2D GetTexture(Color color)
         {
-            if (textureCache.TryGetValue(color, out var cachedTexture))
-            {
-                if (cachedTexture == null)
-                    textureCache.Remove(color);
-                else
-                    return cachedTexture;
-            }
-
             Texture2D texture = new Texture2D(1, 1);
+            texture.alphaIsTransparency = true;
             texture.SetPixel(0, 0, color);
             texture.Apply();
-            textureCache.Add(color, texture);
             return texture;
         }
         public static List<T> GetSelectionListAs<T>() where T : UnityEngine.Object
@@ -50,20 +42,16 @@ namespace Voxelity.Editor
             return returned;
         }
 
-        public static bool Button(string text = "", int height = 15)
+        public static bool Button(string text = "", params GUILayoutOption[] styles)
         {
-            GUIStyle style = new GUIStyle(GUI.skin.button)
-            {
-                fixedHeight = height,
-            };
-            return GUILayout.Button(text, style);
+            return GUILayout.Button(text, styles);
         }
-        public static void Button(Action doOn, string text = "",int heigh = 15)
+        public static void Button(Action doOn, string text = "")
         {
-            if(text == "")
+            if (text == "")
                 text = doOn.Method.Name;
-            
-            if(Button(text, heigh))
+
+            if (Button(text))
             {
                 doOn?.Invoke();
             }
@@ -79,9 +67,11 @@ namespace Voxelity.Editor
             if (useLine)
                 Line();
         }
-        public static void Line()
+        public static void Line(float height = 1f, Color color = default)
         {
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+            if (color == default) color = LineColor;
+            GUILayout.Box(GUIContent.none, GUILayout.ExpandWidth(true), GUILayout.Height(height));
+            GUI.DrawTexture(GUILayoutUtility.GetLastRect(), GetTexture(color));
         }
         public static void ClearSelection()
         {
@@ -95,17 +85,24 @@ namespace Voxelity.Editor
             if (reverseOrder)
             {
                 names = names.ToList().Reverse<string>().ToArray();
-                return !HorizontalToolbarButtons((!isActiveBase).ToInt(), names).ToBool();
+                return !HorizontalToolbarSelection((!isActiveBase).ToInt(), names).ToBool();
             }
-            return HorizontalToolbarButtons(isActiveBase.ToInt(), names).ToBool();
+            return HorizontalToolbarSelection(isActiveBase.ToInt(), names).ToBool();
         }
-        public static int HorizontalToolbarButtons(int currentValue, string[] tabNames)
+        public static int HorizontalToolbarSelection(int currentValue, string[] tabNames)
         {
             return GUILayout.SelectionGrid(currentValue, tabNames, tabNames.Length);
         }
 
         public static void ScriptableObjectGUI(ScriptableObject obj, List<string> ignoredProperties = null)
         {
+            GUILayout.Space(10f);
+            GUIStyle verticalWindowStyle = new GUIStyle("window")
+            {
+                stretchHeight = false,
+            };
+            GUILayout.BeginVertical(obj.name, verticalWindowStyle);
+            GUILayout.Space(10f);
             SerializedObject serializedObject = new SerializedObject(obj);
             serializedObject.Update();
             SerializedProperty property = serializedObject.GetIterator();
@@ -126,39 +123,24 @@ namespace Voxelity.Editor
                 enterChildren = false;
                 EditorGUILayout.PropertyField(property, true);
             }
+            GUILayout.Space(10f);
+            GUILayout.EndVertical();
             serializedObject.ApplyModifiedProperties();
         }
-        public static void ScriptableSingletonObjectGUI<T>(UnityEngine.Object obj, List<string> ignoredProperties = null) where T : ScriptableSingleton<T>
+        public static void ScriptableSingletonObjectGUI<T>(List<string> ignoredProperties = null) where T : ScriptableSingleton<T>
         {
+            GUILayout.Space(10f);
             T instance = ScriptableSingleton<T>.instance;
-            SerializedObject serializedObject = new SerializedObject(instance);
-            SerializedProperty property = serializedObject.GetIterator();
-            bool enterChildren = true;
-            while (property.NextVisible(enterChildren))
-            {
-                if (property.name == "m_Script")
-                {
-                    enterChildren = false;
-                    continue;
-                }
-                if (ignoredProperties != null && ignoredProperties.Contains(property.name))
-                {
-                    enterChildren = false;
-                    continue;
-                }
-                enterChildren = false;
-                EditorGUILayout.PropertyField(property, true);
-            }
-            serializedObject.ApplyModifiedProperties();
+            ScriptableObjectGUI(instance, ignoredProperties);
         }
-        public static bool InLineButton(string label, Action inLine, bool isLeft = false, float width = 0, float height = 0,bool inBox = true)
+        public static bool InLineButton(string label, Action inLine, bool isLeft = false, params GUILayoutOption[] layoutOptions)
         {
-             EditorGUILayout.BeginHorizontal(inBox? "box" : "");
+            EditorGUILayout.BeginHorizontal();
 
             if (!isLeft)
                 inLine?.Invoke();
 
-            bool isPressed = DisplayButton(label, width, height);
+            bool isPressed = Button(label, layoutOptions);
 
             if (isLeft)
                 inLine?.Invoke();
@@ -166,26 +148,29 @@ namespace Voxelity.Editor
             EditorGUILayout.EndHorizontal();
             return isPressed;
         }
-        public static bool DisplayButton(string label, float width = 0, float height = 0)
+        public static bool InLineButtons(Action inLine, string[] labels, out int pressedIndex, bool isLeft = false, params GUILayoutOption[] layoutOptions)
         {
-            bool isPressed = false;
-            if (height == 0 && width == 0)
+            EditorGUILayout.BeginHorizontal();
+            pressedIndex = -1;
+
+            if (!isLeft)
+                inLine?.Invoke();
+
+            for (int i = 0; i < labels.Length; i++)
             {
-                isPressed = GUILayout.Button(label);
+                if (Button(labels[i], layoutOptions))
+                {
+                    pressedIndex = i;
+                    EditorGUILayout.EndHorizontal();
+                    return true;
+                }
             }
-            else if (height == 0)
-            {
-                isPressed = GUILayout.Button(label, GUILayout.Width(width));
-            }
-            else if (width == 0)
-            {
-                isPressed = GUILayout.Button(label, GUILayout.Height(height));
-            }
-            else
-            {
-                isPressed = GUILayout.Button(label, GUILayout.Width(width), GUILayout.Height(height));
-            }
-            return isPressed;
+
+            if (isLeft)
+                inLine?.Invoke();
+
+            EditorGUILayout.EndHorizontal();
+            return false;
         }
     }
 }

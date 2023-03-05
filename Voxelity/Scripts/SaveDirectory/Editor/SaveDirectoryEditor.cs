@@ -37,7 +37,7 @@ namespace Voxelity.Save.Editor
                 Rect textureRect = EditorGUILayout.GetControlRect(GUILayout.Width(256), GUILayout.Height(256));
                 textureRect.x = (EditorGUIUtility.currentViewWidth - 256) / 2;
                 GUI.DrawTexture(textureRect, EditorGUIUtility.FindTexture("Packages/co.voxelstudio.voxelity/Voxelity/Icon/Lock.png"));
-                if (VoxelityGUI.Button("Unlock", 25))
+                if (VoxelityGUI.Button("Unlock", GUILayout.Height(25)))
                 {
                     targetObject.lockObj = false;
                 }
