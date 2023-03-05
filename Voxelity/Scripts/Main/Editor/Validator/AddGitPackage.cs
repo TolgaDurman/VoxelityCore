@@ -43,6 +43,7 @@ namespace Voxelity.Editor
             if (addRequest.Status == StatusCode.Success)
             {
                 Debug.Log("Package added successfully.");
+                AssetDatabase.Refresh();
             }
             else
             {
