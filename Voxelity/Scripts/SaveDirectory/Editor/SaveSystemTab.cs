@@ -7,19 +7,19 @@ using Voxelity.Editor;
 using Voxelity.Extensions.Utility;
 using Voxelity.Editor.Tabs;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Voxelity.Save.Editor
 {
     public class SaveSystemTab : VoxelityTab
     {
-        private SaveDirectory[] cachedSaveDirectories;
-        private bool[] foldouts;
-        private UnityEditor.Editor[] editors;
-        public string[] ignoredNames = new string[]
+        WindowEditorDisplay<SaveDirectory, SaveDirectoryEditor> itemsDisplay = 
+        new WindowEditorDisplay<SaveDirectory, SaveDirectoryEditor>(true,true,"LevelSaves","ProjectSettings");
+
+        private SaveDirectory[] GetSaveDirectories
         {
-            "LevelSaves",
-            "ProjectSettings",
-        };
+            get => Resources.FindObjectsOfTypeAll<SaveDirectory>();
+        }
 
         private VoxelityTabSetting tabSettings = new VoxelityTabSetting("Saves", -101);
         [InitializeOnLoadMethod]
@@ -29,21 +29,7 @@ namespace Voxelity.Save.Editor
         }
         public override void OnSelected()
         {
-            Refresh();
-        }
-        private void Refresh()
-        {
-            cachedSaveDirectories = new SaveDirectory[0];
-            foreach (var item in Resources.FindObjectsOfTypeAll<SaveDirectory>())
-            {
-                item.Refresh();
-                
-                if (ArrayUtility.Contains(ignoredNames, item.name)) continue;
-
-                ArrayUtility.Add(ref cachedSaveDirectories, item);
-            }
-            foldouts = new bool[cachedSaveDirectories.Length];
-            editors = new UnityEditor.Editor[cachedSaveDirectories.Length];
+            itemsDisplay.Init(GetSaveDirectories);
         }
 
         public override void OnGUI()
@@ -74,36 +60,25 @@ namespace Voxelity.Save.Editor
                 VoxelityGUI.Header("Save Directories in Resources", false);
             }, layoutOptions: GUILayout.Width(55)))
             {
-                Refresh();
+                itemsDisplay.Init(GetSaveDirectories);
             }
-
-            for (int i = 0; i < cachedSaveDirectories.Length; i++)
+            itemsDisplay.CustomDraw((item) =>
             {
-                if (cachedSaveDirectories[i] == null)
-                {
-                    Refresh();
-                    EditorGUILayout.EndVertical();
-                    AssetDatabase.Refresh();
-                    return;
-                }
-                VoxelityGUI.Line();
                 if (VoxelityGUI.InLineButton("X", () =>
                 {
-                    foldouts[i] = EditorGUILayout.Foldout(foldouts[i], cachedSaveDirectories[i].name, toggleOnLabelClick: true);
+                    itemsDisplay.DisplayFoldout(itemsDisplay.IndexOf(item));
                 }, false, GUILayout.Width(20), GUILayout.Height(13)))
                 {
-                    cachedSaveDirectories[i].RemoveAll();
-                    AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(cachedSaveDirectories[i]));
-                    Refresh();
+                    item.RemoveAll();
+                    AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(item));
                     AssetDatabase.Refresh();
-                    break;
+                    itemsDisplay.Init(GetSaveDirectories);
                 }
-                if (foldouts[i])
+                if(itemsDisplay.Foldout(item))
                 {
-                    UnityEditor.Editor.CreateCachedEditor(cachedSaveDirectories[i], typeof(SaveDirectoryEditor), ref editors[i]);
-                    editors[i].OnInspectorGUI();
+                    itemsDisplay.DisplayItem(itemsDisplay.IndexOf(item));
                 }
-            }
+            });
             EditorGUILayout.EndVertical();
         }
 
