@@ -92,6 +92,7 @@ namespace Voxelity.Extensions
         }
 
         public static string Colorize(this string self, Color color) => $"<color={color.ToHex()}>" + self + $"</color>";
+        public static string Bold(this string self) => "<b>" + self + "</b>";
         public static string Colorize(this string self, Gradient gradient)
         {
             string coloredSelf = "";

@@ -12,6 +12,7 @@ namespace Voxelity.Save
     public class SaveDirectory : ScriptableObject
     {
         public bool lockObj;
+        public bool saveToProject;
         public string saveName = "";
         [SerializeField] private List<Savables> savables = new List<Savables>();
 
@@ -28,6 +29,13 @@ namespace Voxelity.Save
         {
             return Savables.Find(x => x.name == name);
         }
+        public void Refresh()
+        {
+            foreach (var item in savables)
+            {
+                item.directory = this;
+            }
+        }
 
         private string GetSavablesToString()
         {
@@ -36,27 +44,27 @@ namespace Voxelity.Save
             {
                 if (savables[i] is SavableInt)
                 {
-                    string savedData = JsonUtility.ToJson( new SaveData<int>(savables[i].name,((SavableInt)savables[i]).Value) );
+                    string savedData = JsonUtility.ToJson(new SaveData<int>(savables[i].name, ((SavableInt)savables[i]).Value));
                     combinedJson += savedData + splitter;
                 }
                 else if (savables[i] is SavableString)
                 {
-                    string savedData = JsonUtility.ToJson(new SaveData<string>(savables[i].name,((SavableString)savables[i]).Value));
+                    string savedData = JsonUtility.ToJson(new SaveData<string>(savables[i].name, ((SavableString)savables[i]).Value));
                     combinedJson += savedData + splitter;
                 }
                 else if (savables[i] is SavableFloat)
                 {
-                    string savedData = JsonUtility.ToJson(new SaveData<float>(savables[i].name,((SavableFloat)savables[i]).Value));
+                    string savedData = JsonUtility.ToJson(new SaveData<float>(savables[i].name, ((SavableFloat)savables[i]).Value));
                     combinedJson += savedData + splitter;
                 }
                 else if (savables[i] is SavableBool)
                 {
-                    string savedData = JsonUtility.ToJson(new SaveData<bool>(savables[i].name,((SavableBool)savables[i]).Value));
+                    string savedData = JsonUtility.ToJson(new SaveData<bool>(savables[i].name, ((SavableBool)savables[i]).Value));
                     combinedJson += savedData + splitter;
                 }
                 else if (savables[i] is SavableVector3)
                 {
-                    string savedData = JsonUtility.ToJson(new SaveData<Vector3>(savables[i].name,((SavableVector3)savables[i]).Value));
+                    string savedData = JsonUtility.ToJson(new SaveData<Vector3>(savables[i].name, ((SavableVector3)savables[i]).Value));
                     combinedJson += savedData + splitter;
                 }
             }
@@ -93,7 +101,7 @@ namespace Voxelity.Save
 
         public void Save()
         {
-            JsonSaver.SaveRaw(saveName, GetSavablesToString());
+            JsonSaver.SaveRaw(saveName, GetSavablesToString(), saveToProject);
         }
         public void Load()
         {
@@ -102,7 +110,7 @@ namespace Voxelity.Save
                 Debug.Log("save created");
                 Save();
             }
-            SetSavesFromString(JsonSaver.LoadRaw(saveName));
+            SetSavesFromString(JsonSaver.LoadRaw(saveName, saveToProject));
         }
 
 #if UNITY_EDITOR

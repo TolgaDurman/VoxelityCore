@@ -34,8 +34,18 @@ namespace Voxelity.Extensions.Utility
 
         public static bool Delete(string path)
         {
-            if(Exists(path)){
+            if (Exists(path))
+            {
                 File.Delete(GetFullPath(path));
+                return true;
+            }
+            return false;
+        }
+        public static bool DeleteAt(string path)
+        {
+            if (Exists(path))
+            {
+                File.Delete(path);
                 return true;
             }
             return false;

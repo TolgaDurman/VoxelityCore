@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
-namespace Voxelity.Timer
+namespace Voxelity.Timers
 {
     [AddComponentMenu("Voxelity/Time Displayer")]
     public class TimeFromStart : MonoBehaviour

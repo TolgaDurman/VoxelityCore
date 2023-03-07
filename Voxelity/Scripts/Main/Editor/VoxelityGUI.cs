@@ -14,6 +14,22 @@ namespace Voxelity.Editor
         public static string[] BoolNames = new string[2] { "False", "True" };
         public static string[] ActiveNames = new string[2] { "Disabled", "Active" };
 
+        public static GUIStyle BoldLabel(TextAnchor alignment = TextAnchor.MiddleCenter,int fontSize = 12, Color color = default)
+        {
+            var style = new GUIStyle(GUI.skin.label) 
+            { 
+                fontStyle = FontStyle.Bold, 
+                alignment = alignment, 
+                fontSize = fontSize,
+            };
+            if(color == default)
+            {
+                color = Color.white;
+            }
+            style.normal.textColor = color;
+            return style;
+        }
+
         public static bool isDarkTheme
         {
             get => EditorGUIUtility.isProSkin;
@@ -27,6 +43,12 @@ namespace Voxelity.Editor
             texture.SetPixel(0, 0, color);
             texture.Apply();
             return texture;
+        }
+        public static void DisabledGroup(Action group, bool condition = true)
+        {
+            EditorGUI.BeginDisabledGroup(condition);
+            group?.Invoke();
+            EditorGUI.EndDisabledGroup();
         }
         public static List<T> GetSelectionListAs<T>() where T : UnityEngine.Object
         {
@@ -46,16 +68,15 @@ namespace Voxelity.Editor
         {
             return GUILayout.Button(text, styles);
         }
-        public static void Button(Action doOn, string text = "",params GUILayoutOption[] styles)
+        public static void Button(Action doOn, string text = "", params GUILayoutOption[] styles)
         {
             if (text == "")
                 text = doOn.Method.Name;
 
-            if (Button(text,styles))
-            {
+            if (Button(text, styles))
                 doOn?.Invoke();
-            }
         }
+
         public static bool AskUserDialog(string header, string text, string accepted = "Yes", string declined = "No")
         {
             return EditorUtility.DisplayDialog(header, text, accepted, declined);
@@ -126,12 +147,6 @@ namespace Voxelity.Editor
             GUILayout.Space(10f);
             GUILayout.EndVertical();
             serializedObject.ApplyModifiedProperties();
-        }
-        public static void ScriptableSingletonObjectGUI<T>(List<string> ignoredProperties = null) where T : ScriptableSingleton<T>
-        {
-            GUILayout.Space(10f);
-            T instance = ScriptableSingleton<T>.instance;
-            ScriptableObjectGUI(instance, ignoredProperties);
         }
         public static bool InLineButton(string label, Action inLine, bool isLeft = false, params GUILayoutOption[] layoutOptions)
         {

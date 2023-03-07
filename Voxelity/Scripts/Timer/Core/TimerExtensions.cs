@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Voxelity.Timer
+namespace Voxelity.Timers
 {
     public static class TimerExtensions
     {

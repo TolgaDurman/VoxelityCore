@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using Voxelity.Editor;
+using Voxelity.Extensions;
 
 namespace Voxelity.Save.Editor
 {
@@ -34,9 +35,6 @@ namespace Voxelity.Save.Editor
             if (targetObject.lockObj)
             {
                 VoxelityGUI.Header("LOCKED");
-                Rect textureRect = EditorGUILayout.GetControlRect(GUILayout.Width(256), GUILayout.Height(256));
-                textureRect.x = (EditorGUIUtility.currentViewWidth - 256) / 2;
-                GUI.DrawTexture(textureRect, EditorGUIUtility.FindTexture("Packages/co.voxelstudio.voxelity/Voxelity/Icon/Lock.png"));
                 if (VoxelityGUI.Button("Unlock", GUILayout.Height(25)))
                 {
                     targetObject.lockObj = false;
@@ -44,60 +42,90 @@ namespace Voxelity.Save.Editor
             }
             return targetObject.lockObj;
         }
+        public void OnEnable()
+        {
+            targetObject.Refresh();
+        }
         public override void OnInspectorGUI()
         {
             if (ShowLocked()) return;
-            if (GUILayout.Button("Lock"))
+            if (VoxelityGUI.Button("Lock"))
             {
                 targetObject.lockObj = true;
             }
-            EditorGUI.BeginDisabledGroup(true);
-            base.OnInspectorGUI();
-            EditorGUI.EndDisabledGroup();
+            VoxelityGUI.DisabledGroup(() =>
+            {
+                base.OnInspectorGUI();
+            }, true);
 
-            var style = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Bold, fontSize = 12 };
-            EditorGUILayout.LabelField("Value Settings", style);
             if (targetObject.saveName == "")
                 EditorGUILayout.HelpBox("Set the name of the file to use properties.", MessageType.Warning);
 
-            EditorGUILayout.BeginHorizontal();
-
-            d_saveName = EditorGUILayout.TextField(d_saveName);
-            if (GUILayout.Button("Set Save Name"))
+            EditorGUILayout.Space();
+            if (VoxelityGUI.InLineButton("Set Save Name", () =>
+            {
+                d_saveName = EditorGUILayout.TextField(d_saveName);
+            }))
             {
                 targetObject.saveName = d_saveName;
             }
-            if (targetObject.saveName == "")
-                EditorGUI.BeginDisabledGroup(true);
-
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.Space();
-
-            DrawSavables();
-
-            EditorGUILayout.Space();
-
-            if (GUILayout.Button("Delete All"))
+            VoxelityGUI.DisabledGroup(() =>
             {
-                targetObject.RemoveAll();
-                return;
-            }
-            if (GUILayout.Button("Save"))
-            {
-                targetObject.Save();
-            }
+                EditorGUILayout.BeginHorizontal("box");
+                EditorGUILayout.LabelField("Type",GUILayout.MaxWidth(75));
+                targetObject.saveToProject = VoxelityGUI.DisplayActiveToggle(targetObject.saveToProject, new string[2] { "Game", "Project" });
+                EditorGUILayout.EndHorizontal();
 
-            if (GUILayout.Button("Load"))
-            {
-                targetObject.Load();
-            }
-            DrawItems();
+                EditorGUILayout.Space();
+
+                DrawAddSection();
+
+                EditorGUILayout.Space();
+
+                EditorGUILayout.BeginHorizontal("box");
+
+                if (VoxelityGUI.Button("Delete save file", GUILayout.MaxHeight(25)))
+                {
+                    if (JsonSaver.Exists(targetObject.saveName , targetObject.saveToProject))
+                    {
+                        JsonSaver.Delete(targetObject.saveName , targetObject.saveToProject);
+                        Debug.Log(targetObject.saveName.Bold() + ":" + " Save file deleted".Colorize(Color.green));
+                    }
+                    else
+                    {
+                        Debug.Log(targetObject.saveName.Bold() + ":" + " is not available".Colorize(Color.yellow));
+                    }
+                }
+
+                if (VoxelityGUI.Button("Delete All", GUILayout.MaxHeight(25)))
+                {
+                    targetObject.RemoveAll();
+                    return;
+                }
+                if (VoxelityGUI.Button("Save", GUILayout.MaxHeight(25)))
+                {
+                    targetObject.Save();
+                }
+
+                if (VoxelityGUI.Button("Load", GUILayout.MaxHeight(25)))
+                {
+                    targetObject.Load();
+                }
+                EditorGUILayout.EndHorizontal();
+                DrawItems();
+            }, targetObject.saveName == "");
         }
-        private void DrawSavables()
+        private void DrawAddSection()
         {
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-            d_type = (SavableInfo.ValueTypes)GUILayout.SelectionGrid((int)d_type, tabNames, 5);
             EditorGUILayout.Space();
+            var windowStyle = new GUIStyle("window")
+            {
+                stretchHeight = false,
+            };
+            windowStyle.fontStyle = FontStyle.Bold;
+            GUILayout.BeginVertical("Add Savable", windowStyle);
+
+            d_type = (SavableInfo.ValueTypes)GUILayout.SelectionGrid((int)d_type, tabNames, 5);
             EditorGUILayout.BeginHorizontal();
             d_name = EditorGUILayout.TextField("Name ", d_name);
             EditorGUILayout.EndHorizontal();
@@ -124,6 +152,7 @@ namespace Voxelity.Save.Editor
                     EditorGUILayout.PrefixLabel("Value");
                     d_string = EditorGUILayout.TextArea(d_string, textAreaStyle);
                     EditorGUILayout.Space();
+                    if (d_string == "") d_string = "N/A";
                     DisplayButton(new SaveData<string>(d_name, d_string));
                     break;
                 case SavableInfo.ValueTypes.Vector3:
@@ -132,6 +161,7 @@ namespace Voxelity.Save.Editor
                     DisplayButton(new SaveData<Vector3>(d_name, d_vector3));
                     break;
             }
+            GUILayout.EndVertical();
         }
         private void DisplayButton<T>(SaveData<T> saved)
         {
@@ -153,18 +183,16 @@ namespace Voxelity.Save.Editor
                 EditorGUILayout.Space();
                 serializedObject.Update();
 
-                EditorGUILayout.PropertyField(serializedPropertyData, new GUIContent(item.name + " : "), true);
-
-                EditorGUILayout.BeginHorizontal();
-                var buttonStyle = new GUIStyle(GUI.skin.button) { margin = new RectOffset(0, 0, 5, 5) };
-                if (GUILayout.Button("Remove", buttonStyle))
+                if (VoxelityGUI.InLineButton("X", () =>
+                {
+                    EditorGUILayout.PropertyField(serializedPropertyData, new GUIContent(item.name + " : "), true);
+                }, false, GUILayout.Width(20)))
                 {
                     targetObject.RemoveSavable(item);
-                    EditorGUILayout.EndHorizontal();
                     EditorGUILayout.EndVertical();
                     break;
                 }
-                EditorGUILayout.EndHorizontal();
+
                 serializedObject.ApplyModifiedProperties();
                 EditorGUILayout.EndVertical();
                 EditorGUILayout.Space();

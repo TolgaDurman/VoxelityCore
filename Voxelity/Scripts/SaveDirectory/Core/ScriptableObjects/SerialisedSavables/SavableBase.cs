@@ -7,26 +7,24 @@ namespace Voxelity.Save
     [System.Serializable]
     public abstract class Savable<T> : Savables
     {
-        internal SaveDirectory directory;
         public abstract T Value
         {
             get;
             set;
         }
-        public override void Save()
-        {
-            directory.Save();
-        }
-        public override void Load()
-        {
-            directory.Load();
-        }
     }
     [System.Serializable]
     public abstract class Savables : ScriptableObject
     {
-        public abstract void Save();
-        public abstract void Load();
+        [SerializeField] public SaveDirectory directory;
+        public void Save()
+        {
+            directory.Save();
+        }
+        public void Load()
+        {
+            directory.Load();
+        }
     }
     public static class SavableExtension
     {

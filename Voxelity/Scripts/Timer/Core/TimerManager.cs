@@ -2,7 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Voxelity.Timer
+namespace Voxelity.Timers
 {
     public class TimerManager : Singleton<TimerManager>
     {
