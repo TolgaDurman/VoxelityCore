@@ -44,7 +44,8 @@ namespace Voxelity.Save.Editor
         }
         public void OnEnable()
         {
-            targetObject.Refresh();
+            if(target != null)
+                targetObject.Refresh();
         }
         public override void OnInspectorGUI()
         {

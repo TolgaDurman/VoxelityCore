@@ -76,6 +76,24 @@ namespace Voxelity.Editor
             if (Button(text, styles))
                 doOn?.Invoke();
         }
+        public static void DisplayInWindow(Action content,string label = "")
+        {
+            EditorGUILayout.BeginVertical("window");
+            if(label != "")
+                VoxelityGUI.Header(label);
+            
+            content?.Invoke();
+            EditorGUILayout.EndVertical();
+        }
+        public static void DisplayInBox(Action content,string label = "")
+        {
+            EditorGUILayout.BeginVertical("box");
+            if(label != "")
+                VoxelityGUI.Header(label);
+            
+            content?.Invoke();
+            EditorGUILayout.EndVertical();
+        }
 
         public static bool AskUserDialog(string header, string text, string accepted = "Yes", string declined = "No")
         {
