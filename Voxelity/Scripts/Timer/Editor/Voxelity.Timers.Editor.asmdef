@@ -1,0 +1,18 @@
+{
+    "name": "Voxelity.Timers.Editor",
+    "rootNamespace": "Voxelity.Timers.Editor",
+    "references": [
+        "GUID:5d38ba3fd4b134d4e816e861da7be067"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

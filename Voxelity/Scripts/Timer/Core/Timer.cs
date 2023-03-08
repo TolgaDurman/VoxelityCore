@@ -5,16 +5,21 @@ using UnityEngine.Events;
 
 namespace Voxelity.Timers
 {
+    [System.Serializable]
     public class Timer
     {
         private float _completeTime;
         private float _countedTime;
         private bool _enabled = true;
+        private bool _looping;
+        private int _loopCount;
+        private int _loopStep;
         private bool _autoKill = true;
         private bool _unscaledTime = false;
         private UnityAction _onComplete;
         private UnityAction<float> _onUpdate;
         private UnityAction<float> _onUpdate01;
+        private UnityAction<int> _onLoopStep;
         private Object _referenceObject;
         private object _id;
         public float RemainingTime
@@ -31,6 +36,22 @@ namespace Voxelity.Timers
         public Timer SetAutoKill(bool value)
         {
             _autoKill = value;
+            return this;
+        }
+        /// <summary>
+        /// Sets loop that this timer will play
+        /// </summary>
+        /// <param name="count"> -1 is infinite</param>
+        /// <returns></returns>
+        public Timer SetLoop(int count = -1,bool looping = true)
+        {
+            _looping = looping;
+            _loopCount = count;
+            return this;
+        }
+        public Timer OnLoopStep(UnityAction<int> onStep)
+        {
+            _onLoopStep = onStep;
             return this;
         }
         public Timer OnUpdate(UnityAction<float> onUpdate)
@@ -106,10 +127,25 @@ namespace Voxelity.Timers
         {
             _enabled = false;
             _countedTime = _completeTime;
-            
+
             _onUpdate?.Invoke(_completeTime);
             _onUpdate01?.Invoke(1f);
-            
+
+            if(_looping && !executeOnComplete)
+            {
+                _loopStep++;
+                if(_loopCount <= -1 ||_loopStep != _loopCount )
+                {
+                    _onLoopStep?.Invoke(_loopStep);
+                    Restart();
+                    return;
+                }
+                else
+                {
+                    _loopStep = 0;
+                }
+            }
+
             if (executeOnComplete)
                 _onComplete?.Invoke();
 
