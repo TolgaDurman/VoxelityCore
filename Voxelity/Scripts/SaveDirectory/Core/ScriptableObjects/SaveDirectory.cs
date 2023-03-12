@@ -105,7 +105,7 @@ namespace Voxelity.Save
         }
         public void Load()
         {
-            if (!JsonSaver.Exists(saveName))
+            if (!JsonSaver.Exists(saveName,saveToProject))
             {
                 Debug.Log("save created");
                 Save();
