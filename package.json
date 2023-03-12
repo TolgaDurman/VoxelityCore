@@ -1,6 +1,6 @@
 {
   "name": "co.voxelstudio.voxelity",
-  "version": "0.2.8",
+  "version": "0.3.0",
   "displayName": "Voxelity Core",
   "description": "Voxelity is a comprehensive collection of helper tools for Unity developers that streamlines workflow, simplifies common tasks, and optimizes performance, making it a valuable resource for developers of all skill levels working on any size project.",
   "documentationUrl": "https://www.voxelity.dev/",
@@ -15,5 +15,8 @@
     "name": "Voxel Studio",
     "email": "info@voxelstudio.co",
     "url": "https://www.voxelstudio.co"
+  },
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "2.0.0"
   }
 }
