@@ -1,21 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Voxelity.Editor.Tabs;
 
 namespace Voxelity.Saver.Editor
 {
-    public class SaverEditorTab : MonoBehaviour
+    public class SaverEditorTab : VoxelityTab
     {
-        // Start is called before the first frame update
-        void Start()
+        VoxelityTabSetting _settings = new VoxelityTabSetting("Save");
+        public override void OnGUI()
         {
-        
+
         }
 
-        // Update is called once per frame
-        void Update()
+        public override VoxelityTabSetting TabSettings()
         {
-        
+            return _settings;
         }
     }
 }
