@@ -42,10 +42,10 @@ namespace Voxelity.DataPacks
         }
         public void Load()
         {
-            if (!Reader.Exists(info.objectName))
+            if (!VoxelitySaveRaw.Exists(info.root)&&!Reader.Exists(info.objectName))
                 Save();
             
-            Value = reader.Read<T>(info.objectName);
+            reader.TryRead<T>(info.objectName,out Value);
         }
     }
 }
