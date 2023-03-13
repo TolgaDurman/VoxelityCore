@@ -8,7 +8,7 @@ namespace Voxelity.Saver.Core.Storage
     {
         private const string _defaultExtension = ".json";
 
-        private static string BasePath => Path.Combine(VoxelitySaverGlobalSettings.StorageLocation, "Saves");
+        public static string BasePath => Path.Combine(VoxelitySaverGlobalSettings.StorageLocation, "Saves");
 
         public static bool SaveString(string filename, bool includesExtension, string value)
         {

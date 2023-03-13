@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -35,6 +36,28 @@ namespace Voxelity.Editor
             PlayerSettings.SetScriptingDefineSymbolsForGroup(
                 EditorUserBuildSettings.selectedBuildTargetGroup,
                 string.Join(";", allDefines.ToArray()));
+        }
+        public static void DeleteVisibleFilesAndFolders(string directoryPath)
+        {
+            DirectoryInfo dir = new DirectoryInfo(directoryPath);
+
+            // Delete all visible files in the directory
+            foreach (FileInfo file in dir.GetFiles())
+            {
+                if ((file.Attributes & FileAttributes.Hidden) != FileAttributes.Hidden)
+                {
+                    file.Delete();
+                }
+            }
+
+            // Delete all visible folders in the directory
+            foreach (DirectoryInfo subDir in dir.GetDirectories())
+            {
+                if ((subDir.Attributes & FileAttributes.Hidden) != FileAttributes.Hidden)
+                {
+                    subDir.Delete(true);
+                }
+            }
         }
         public static T GetOrCreateScriptableObject<T>(string path) where T : ScriptableObject
         {

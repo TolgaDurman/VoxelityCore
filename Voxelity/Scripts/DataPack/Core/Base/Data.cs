@@ -1,3 +1,4 @@
+using Voxelity.Saver;
 namespace Voxelity.DataPacks
 {
     [System.Serializable]
@@ -5,6 +6,28 @@ namespace Voxelity.DataPacks
     {
         public DataInfo info;
         public T Value;
+        private VoxelitySaveWriter writer;
+
+        private VoxelitySaveWriter Writer
+        {
+            get
+            {
+                if (writer == null) 
+                    writer = VoxelitySaveWriter.Create(info.root);
+                return writer;
+            }
+        }
+        private VoxelitySaveReader reader;
+
+        private VoxelitySaveReader Reader
+        {
+            get
+            {
+                if (reader == null) 
+                    reader = VoxelitySaveReader.Create(info.root);
+                return reader;
+            }
+        }
         public Data(DataInfo info, T value)
         {
             this.info = info;
@@ -14,11 +37,15 @@ namespace Voxelity.DataPacks
 
         public void Save()
         {
-            
+            Writer.Write(info.objectName, Value);
+            Writer.Commit();
         }
         public void Load()
         {
+            if (!Reader.Exists(info.objectName))
+                Save();
             
+            Value = reader.Read<T>(info.objectName);
         }
     }
 }

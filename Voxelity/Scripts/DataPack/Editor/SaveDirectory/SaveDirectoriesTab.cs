@@ -21,11 +21,7 @@ namespace Voxelity.DataPacks.SaveDir.Editor
         }
 
         private VoxelityTabSetting tabSettings = new VoxelityTabSetting("Save Directories", -101);
-        [InitializeOnLoadMethod]
-        public static void Initialize()
-        {
-            // JsonSaver.Init();
-        }
+
         public override void OnSelected()
         {
             itemsDisplay.Init(GetSaveDirectories);
@@ -33,9 +29,6 @@ namespace Voxelity.DataPacks.SaveDir.Editor
 
         public override void OnGUI()
         {
-            if (VoxelityGUI.Button("Open game saves path", GUILayout.Height(30)))
-                OpenDirectory.OpenPersistentDataPath();
-            
             VoxelityGUI.DisplayInBox(() =>
             {
                 if (VoxelityGUI.InLineButton("Refresh", () =>
