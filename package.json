@@ -16,17 +16,14 @@
     "email": "info@voxelstudio.co",
     "url": "https://www.voxelstudio.co"
   },
-  {
-    "samples": 
-    [
-      {
-        "displayName": "Currency System",
-        "description": "",
-        "path": "Samples~/Currency System"
-      },
-    ]
-  },
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "3.0.2"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Currency System",
+      "description": "",
+      "path": "Samples~/Currency System"
+    }
+  ]
 }

@@ -11,7 +11,6 @@ namespace Voxelity.Editor.Tabs
 {
     public class VoxelityTabsEditorWindow : EditorWindow
     {
-        static EditorWindow targetWindow;
         private List<VoxelityTab> voxelityTabs = new List<VoxelityTab>();
 
         private int currentTab = 0;
@@ -53,13 +52,12 @@ namespace Voxelity.Editor.Tabs
         [MenuItem("Voxelity/Voxel Tabs %#v", priority = -101)]
         public static void ShowWindow()
         {
-            targetWindow = GetWindow<VoxelityTabsEditorWindow>("Voxelity");
+            var targetWindow = GetWindow<VoxelityTabsEditorWindow>("Voxelity");
             GUIContent titleContent = new GUIContent("Voxelity", TabWindowIcon);
             targetWindow.titleContent = titleContent;
         }
         private void OnEnable()
         {
-            if(targetWindow == null) targetWindow = EditorWindow.GetWindow<VoxelityTabsEditorWindow>();
             voxelityTabs.Clear();
             tabContents.Clear();
             InitializeTabs();
