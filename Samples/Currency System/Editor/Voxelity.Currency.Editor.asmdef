@@ -1,0 +1,20 @@
+{
+    "name": "Voxelity.Currency.Editor",
+    "rootNamespace": "Voxelity.Currency.Editor",
+    "references": [
+        "GUID:8cb4a703f6d51964bbe512cee1230e9e"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "VOXELITY_CORE"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

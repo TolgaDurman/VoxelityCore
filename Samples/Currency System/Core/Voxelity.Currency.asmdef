@@ -1,0 +1,20 @@
+{
+    "name": "Voxelity.Currency",
+    "rootNamespace": "Voxelity.Currency",
+    "references": [
+        "GUID:42fc1254453c88542bc94e3dfcdbf4e5",
+        "GUID:95b5ee8500b8948a5b02216c838a33a2",
+        "GUID:8911603fb762d4211aed32aa9a1e5375"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "VOXELITY_CORE"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
