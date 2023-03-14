@@ -9,9 +9,9 @@ using Voxelity.Editor;
 
 namespace Voxelity.Editor.Tabs
 {
-    public delegate void VoxelityTabContent();
     public class VoxelityTabsEditorWindow : EditorWindow
     {
+        static EditorWindow targetWindow;
         private List<VoxelityTab> voxelityTabs = new List<VoxelityTab>();
 
         private int currentTab = 0;
@@ -53,12 +53,13 @@ namespace Voxelity.Editor.Tabs
         [MenuItem("Voxelity/Voxel Tabs %#v", priority = -101)]
         public static void ShowWindow()
         {
-            VoxelityTabsEditorWindow window = GetWindow<VoxelityTabsEditorWindow>("Voxelity");
+            targetWindow = GetWindow<VoxelityTabsEditorWindow>("Voxelity");
             GUIContent titleContent = new GUIContent("Voxelity", TabWindowIcon);
-            window.titleContent = titleContent;
+            targetWindow.titleContent = titleContent;
         }
         private void OnEnable()
         {
+            if(targetWindow == null) targetWindow = EditorWindow.GetWindow<VoxelityTabsEditorWindow>();
             voxelityTabs.Clear();
             tabContents.Clear();
             InitializeTabs();
