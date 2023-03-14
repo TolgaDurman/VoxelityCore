@@ -2,7 +2,7 @@
     "name": "Voxelity.Currency.Editor",
     "rootNamespace": "Voxelity.Currency.Editor",
     "references": [
-        "GUID:8cb4a703f6d51964bbe512cee1230e9e"
+        "GUID:57cc1e89f27c5495d806bf872a483730"
     ],
     "includePlatforms": [
         "Editor"
