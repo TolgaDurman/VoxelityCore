@@ -1,6 +1,6 @@
 {
   "name": "co.voxelstudio.voxelity",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "displayName": "Voxelity Core",
   "description": "Voxelity is a comprehensive collection of helper tools for Unity developers that streamlines workflow, simplifies common tasks, and optimizes performance, making it a valuable resource for developers of all skill levels working on any size project.",
   "documentationUrl": "https://www.voxelity.dev/",
@@ -20,10 +20,5 @@
     "com.unity.nuget.newtonsoft-json": "3.0.2"
   },
   "samples": [
-    {
-      "displayName": "Currency System",
-      "description": "",
-      "path": "Samples/Currency System"
-    }
   ]
 }
