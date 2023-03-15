@@ -21,6 +21,24 @@
   },
   "samples": [
     {
+      "displayName": "Canvas Swapper",
+      "description": "",
+      "path": "Samples~/Canvas Swapper",
+      "interactiveImport": true
+    },
+    {
+      "displayName": "Currency System",
+      "description": "",
+      "path": "Samples~/Currency System",
+      "interactiveImport": true
+    },
+    {
+      "displayName": "D-N Cycle System",
+      "description": "",
+      "path": "Samples~/D-N Cycle System",
+      "interactiveImport": true
+    },
+    {
       "displayName": "VoxelityInitializition",
       "description": "",
       "path": "Samples~/VoxelityInitializition",
