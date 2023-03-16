@@ -8,19 +8,14 @@ namespace Voxelity.DataPacks
     [System.Serializable]
     public abstract class SavableDataObject<T> : SavableDataObjectBase
     {
-        public string root = "Defaults";
-        public string objectName;
-        public T Value;
+        public Data<T> Data;
         public override void Save()
         {
-            var writer = VoxelitySaveWriter.Create(root);
-            writer.Write(objectName, Value);
-            writer.Commit();
+            Data.Save();
         }
         public override void Load()
         {
-            var reader = VoxelitySaveReader.Create(root);
-            Value = reader.Read<T>(objectName);
+            Data.Load();
         }
     }
     public abstract class SavableDataObjectBase : ScriptableObject

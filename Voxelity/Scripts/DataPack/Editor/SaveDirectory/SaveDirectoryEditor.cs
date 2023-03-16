@@ -173,7 +173,7 @@ namespace Voxelity.DataPacks.SaveDir.Editor
             var buttonStyle = new GUIStyle(GUI.skin.button) { fixedHeight = 30 };
             if (GUILayout.Button("Add Save", buttonStyle))
             {
-                targetObject.AddSavable(new Data<T>(new DataInfo(targetObject.name , _name, d_type), saved));
+                targetObject.AddSavable(new Data<T>(new DataInfo(targetObject.name , _name), saved));
             }
             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
         }

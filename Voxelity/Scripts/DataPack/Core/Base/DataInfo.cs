@@ -9,12 +9,11 @@ namespace Voxelity.DataPacks
     {
         public string root;
         public string objectName;
-        public DataTypes type;
 
-        public DataInfo(string root ,string name, DataTypes type)
+        public DataInfo(string root ,string name)
         {
+            this.root = root;
             this.objectName = name;
-            this.type = type;
         }
     }
     public enum DataTypes

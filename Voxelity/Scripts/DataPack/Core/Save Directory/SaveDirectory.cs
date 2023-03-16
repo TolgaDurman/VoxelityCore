@@ -16,22 +16,18 @@ namespace Voxelity.DataPacks.SaveDir
         public bool lockObj;
         [SerializeField] private List<Savables> savables = new List<Savables>();
 
-        private VoxelitySaveWriter writer;
         public VoxelitySaveWriter Writer
         {
             get
             {
-                if(writer == null) writer = VoxelitySaveWriter.Create(name);
-                return writer;
+                return VoxelitySaver.GetWriter(name);
             }
         }
-        private VoxelitySaveReader reader;
         public VoxelitySaveReader Reader
         {
             get 
             {
-                if(reader == null) reader = VoxelitySaveReader.Create(name);
-                return reader;
+                return VoxelitySaver.GetReader(name);
             }
         }
         public List<Savables> Savables

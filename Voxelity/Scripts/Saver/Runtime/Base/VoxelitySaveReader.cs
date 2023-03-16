@@ -20,6 +20,15 @@ namespace Voxelity.Saver
         {
             return Create(root, new VoxelitySaveSettings());
         }
+         /// <summary>
+        /// Safely Creates a VoxelitySaveReader on the specified root
+        /// </summary>
+        /// <param name="root">The root to read from</param>
+        /// <returns>A VoxelitySaveReader instance</returns>
+        public static VoxelitySaveReader SafeCreate(string root)
+        {
+            return Create(root, new VoxelitySaveSettings(), true);
+        }
 
         /// <summary>
         /// Creates a VoxelitySaveReader on the specified root using the specified settings
@@ -27,10 +36,10 @@ namespace Voxelity.Saver
         /// <param name="root">The root to read from</param>
         /// <param name="settings">Settings</param>
         /// <returns>A VoxelitySaveReader instance</returns>
-        public static VoxelitySaveReader Create(string root, VoxelitySaveSettings settings)
+        public static VoxelitySaveReader Create(string root, VoxelitySaveSettings settings, bool safeLoad = false)
         {
             VoxelitySaveReader saveReader = new VoxelitySaveReader(root, settings);
-            saveReader.Load(false);
+            saveReader.Load(safeLoad);
             return saveReader;
         }
 

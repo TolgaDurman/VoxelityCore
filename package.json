@@ -1,6 +1,6 @@
 {
   "name": "co.voxelstudio.voxelity",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "displayName": "Voxelity Core",
   "description": "Voxelity is a comprehensive collection of helper tools for Unity developers that streamlines workflow, simplifies common tasks, and optimizes performance, making it a valuable resource for developers of all skill levels working on any size project.",
   "documentationUrl": "https://www.voxelity.dev/",
@@ -19,5 +19,24 @@
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "3.0.2"
   },
-  "samples": []
+  "samples": [
+    {
+      "displayName": "Currency System",
+      "description": "",
+      "path": "Samples~/Currency System",
+      "interactiveImport": true
+    },
+    {
+      "displayName": "Game Loop",
+      "description": "",
+      "path": "Samples~/Game Loop",
+      "interactiveImport": true
+    },
+    {
+      "displayName": "Prefab Level System",
+      "description": "",
+      "path": "Samples~/Prefab Level System",
+      "interactiveImport": true
+    }
+  ]
 }
