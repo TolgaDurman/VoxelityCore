@@ -12,10 +12,10 @@ namespace Voxelity.Editor
     public class VoxelityPacksTab : VoxelityTab
     {
         private VoxelityTabSetting setting = new("Add-Ons", -1, "Voxelity Add-Ons");
-        private string packsPath = Application.dataPath.TrimEnd("Assets".ToCharArray()) + "Packages/VoxelityCore/Samples~";
-        private string packsInProjectPath = "Packages/VoxelityCore/Samples~";
-        private string addOnsPath = Application.dataPath + "/Voxel Studio/Add-Ons";
-        private string addOnsPathInAssets = "Assets/Voxel Studio/Add-Ons";
+        private string packsPath = Application.dataPath.TrimEnd("Assets".ToCharArray()) + packsInProjectPath;
+        private const string packsInProjectPath = "Packages/co.voxelstudio.voxelity/Samples~/";
+        private string addOnsPath = Application.dataPath.TrimEnd("Assets".ToCharArray()) + addOnsPathInAssets;
+        private const string addOnsPathInAssets = "Assets/Voxel Studio/Add-Ons";
         private string[] folders;
         private string[] foldersInProject;
         public override void OnSelected()
@@ -40,7 +40,7 @@ namespace Voxelity.Editor
                     {
                         if (VoxelityGUI.Button("Install", GUILayout.Width(50), GUILayout.Height(17)))
                         {
-                            string packagePath = Path.Combine(packsPath, folderName,folderName)+".unitypackage";
+                            string packagePath = Path.Combine(packsPath, folderName, folderName) + ".unitypackage";
                             Debug.Log(packagePath);
                             AssetDatabase.ImportPackage(packagePath, sample.interactiveImport);
                         }
