@@ -56,14 +56,13 @@ namespace Voxelity.DataPacks.SaveDir
         }
         public void Load<T>(Savable<T> savable)
         {
+            Reader.Reload();
             if (!Reader.Exists(savable.name))
             {
                 Write<T>(savable);
                 Commit();
             }
-            Reader.Reload();
             Reader.TryRead<T>(savable.name, out T value);
-            Debug.Log(value);
             savable.Value = value;
         }
 
