@@ -25,7 +25,7 @@ namespace Voxelity.DataPacks.SaveDir
         }
         public VoxelitySaveReader Reader
         {
-            get 
+            get
             {
                 return VoxelitySaver.GetReader(name);
             }
@@ -36,8 +36,8 @@ namespace Voxelity.DataPacks.SaveDir
         }
         public void DeleteSaveFile()
         {
-            FileAccess.Delete(name,false);
-            Debug.Log(name +" : Save File deleted");
+            FileAccess.Delete(name, false);
+            Debug.Log(name + " : Save File deleted");
         }
         public void Refresh()
         {
@@ -48,7 +48,7 @@ namespace Voxelity.DataPacks.SaveDir
         }
         public void Write<T>(Savable<T> savable)
         {
-            Writer.Write(savable.name , savable.Value);
+            Writer.Write(savable.name, savable.Value);
         }
         public void Commit()
         {
@@ -56,6 +56,11 @@ namespace Voxelity.DataPacks.SaveDir
         }
         public void Load<T>(Savable<T> savable)
         {
+            if (!Reader.Exists(savable.name))
+            {
+                Write<T>(savable);
+                Commit();
+            }
             Reader.Reload();
             Reader.TryRead<T>(savable.name, out T value);
             Debug.Log(value);
