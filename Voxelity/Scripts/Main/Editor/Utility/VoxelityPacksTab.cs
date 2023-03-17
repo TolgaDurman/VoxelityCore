@@ -13,7 +13,7 @@ namespace Voxelity.Editor
     {
         private VoxelityTabSetting setting = new("Add-Ons", -1, "Voxelity Add-Ons");
         private string packsPath = Application.dataPath.TrimEnd("Assets".ToCharArray()) + packsInProjectPath;
-        private const string packsInProjectPath = "Packages/co.voxelstudio.voxelity/Samples~/";
+        private const string packsInProjectPath = "Packages/co.voxelstudio.voxelity/Samples~";
         private string addOnsPath = Application.dataPath.TrimEnd("Assets".ToCharArray()) + addOnsPathInAssets;
         private const string addOnsPathInAssets = "Assets/Voxel Studio/Add-Ons";
         private string[] folders;
