@@ -39,6 +39,7 @@ namespace Voxelity.DataPacks.SaveDir
             FileAccess.Delete(name, false);
             Debug.Log(name + " : Save File deleted");
         }
+        [RuntimeInitializeOnLoadMethod]
         public void Refresh()
         {
             foreach (var item in savables)
@@ -114,6 +115,7 @@ namespace Voxelity.DataPacks.SaveDir
             savables.Add(addedObj);
             AssetDatabase.AddObjectToAsset(addedObj, this);
             AssetDatabase.SaveAssetIfDirty(this);
+            AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }
         public void RemoveSavable(Savables item)
