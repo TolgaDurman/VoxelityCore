@@ -1,6 +1,6 @@
 {
   "name": "co.voxelstudio.voxelity",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "displayName": "Voxelity Core",
   "description": "Voxelity is a comprehensive collection of helper tools for Unity developers that streamlines workflow, simplifies common tasks, and optimizes performance, making it a valuable resource for developers of all skill levels working on any size project.",
   "documentationUrl": "https://www.voxelity.dev/",
@@ -21,21 +21,75 @@
   },
   "samples": [
     {
+      "displayName": "Canvas Swapper",
+      "description": "0.0.1",
+      "path": "Samples~/Canvas Swapper",
+      "interactiveImport": true
+    },
+    {
       "displayName": "Currency System",
-      "description": "",
+      "description": "0.0.1",
       "path": "Samples~/Currency System",
       "interactiveImport": true
     },
     {
+      "displayName": "D-N Cycle System",
+      "description": "0.0.1",
+      "path": "Samples~/D-N Cycle System",
+      "interactiveImport": true
+    },
+    {
+      "displayName": "Date Time System",
+      "description": "0.0.1",
+      "path": "Samples~/Date Time System",
+      "interactiveImport": true
+    },
+    {
       "displayName": "Game Loop",
-      "description": "",
+      "description": "0.0.1",
       "path": "Samples~/Game Loop",
       "interactiveImport": true
     },
     {
+      "displayName": "Matrix System",
+      "description": "0.0.1",
+      "path": "Samples~/Matrix System",
+      "interactiveImport": true
+    },
+    {
       "displayName": "Prefab Level System",
-      "description": "",
+      "description": "0.0.1",
       "path": "Samples~/Prefab Level System",
+      "interactiveImport": true
+    },
+    {
+      "displayName": "Render To Texture",
+      "description": "0.0.1",
+      "path": "Samples~/Render To Texture",
+      "interactiveImport": true
+    },
+    {
+      "displayName": "Scene System",
+      "description": "0.0.1",
+      "path": "Samples~/Scene System",
+      "interactiveImport": true
+    },
+    {
+      "displayName": "Target System",
+      "description": "0.0.1",
+      "path": "Samples~/Target System",
+      "interactiveImport": true
+    },
+    {
+      "displayName": "Tick System",
+      "description": "0.0.1",
+      "path": "Samples~/Tick System",
+      "interactiveImport": true
+    },
+    {
+      "displayName": "VoxelityInitializition",
+      "description": "0.0.1",
+      "path": "Samples~/VoxelityInitializition",
       "interactiveImport": true
     }
   ]

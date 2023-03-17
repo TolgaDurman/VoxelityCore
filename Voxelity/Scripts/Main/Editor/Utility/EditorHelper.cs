@@ -8,14 +8,6 @@ namespace Voxelity.Editor
 {
     public static class EditorHelper
     {
-        private const string defineName = "VOXELITY_CORE";
-#if !VOXELITY_CORE
-        [InitializeOnLoadMethod]
-        private static void AddDefine()
-        {
-            AddSymbols(defineName);
-        }
-#endif
         public static void AddSymbols(params string[] args)
         {
             string definesString =
