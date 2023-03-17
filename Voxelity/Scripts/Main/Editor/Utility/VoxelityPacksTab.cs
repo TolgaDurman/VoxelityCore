@@ -6,22 +6,29 @@ using System.Linq;
 using UnityEngine;
 using Voxelity.Editor.Tabs;
 using Voxelity.Extensions;
+using UnityEditor.PackageManager;
+using UnityEditor.PackageManager.Requests;
 
 namespace Voxelity.Editor
 {
     public class VoxelityPacksTab : VoxelityTab
     {
         private VoxelityTabSetting setting = new("Add-Ons", -1, "Voxelity Add-Ons");
-        private string packsPath = Application.dataPath.TrimEnd("Assets".ToCharArray()) + packsInProjectPath;
-        private const string packsInProjectPath = "Packages/co.voxelstudio.voxelity/Samples~";
-        private string addOnsPath = Application.dataPath.TrimEnd("Assets".ToCharArray()) + addOnsPathInAssets;
-        private const string addOnsPathInAssets = "Assets/Voxel Studio/Add-Ons";
+        private string packsPath = Application.dataPath.TrimEnd("Assets".ToCharArray()) + "Packages/co.voxelstudio.voxelity/Samples~";
+        private string addOnsPath = Application.dataPath + "/Voxel Studio/Add-Ons";
+        private string addOnsPathInAssets = "Assets/Voxel Studio/Add-Ons";
         private string[] folders;
         private string[] foldersInProject;
         public override void OnSelected()
         {
             folders = Directory.GetDirectories(packsPath);
             foldersInProject = Directory.GetDirectories(addOnsPath);
+        }
+        private void ImportPackage(string name,bool interactiveImport)
+        {
+            string packagePath = Directory.GetFiles(folders[IndexInProjectFolders(name)])[0];
+            string path = packagePath.Substring(packagePath.IndexOf("Packages"));
+            AssetDatabase.ImportPackage(path, interactiveImport);
         }
         public override void OnGUI()
         {
@@ -40,9 +47,7 @@ namespace Voxelity.Editor
                     {
                         if (VoxelityGUI.Button("Install", GUILayout.Width(50), GUILayout.Height(17)))
                         {
-                            string packagePath = Path.Combine(packsPath, folderName, folderName) + ".unitypackage";
-                            Debug.Log(packagePath);
-                            AssetDatabase.ImportPackage(packagePath, sample.interactiveImport);
+                            ImportPackage(folderName, sample.interactiveImport);
                         }
                     }
                     else
@@ -56,7 +61,7 @@ namespace Voxelity.Editor
                             AssetDatabase.Refresh();
                             if (pressedIndex == 0)
                             {
-                                AssetDatabase.ImportPackage(folders[i] + "/" + folderName + ".unitypackage", false);
+                                ImportPackage(folderName, false);
                             }
                         }
                     }
@@ -65,9 +70,9 @@ namespace Voxelity.Editor
         }
         private int IndexInProjectFolders(string name)
         {
-            for (int i = 0; i < foldersInProject.Length; i++)
+            for (int i = 0; i < folders.Length; i++)
             {
-                if (Path.GetFileName(foldersInProject[i]) == name) return i;
+                if (Path.GetFileName(folders[i]) == name) return i;
             }
             return -1;
         }
