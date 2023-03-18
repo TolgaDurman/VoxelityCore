@@ -14,19 +14,31 @@ namespace Voxelity.Editor
         public static string[] BoolNames = new string[2] { "False", "True" };
         public static string[] ActiveNames = new string[2] { "Disabled", "Active" };
 
-        public static GUIStyle BoldLabel(TextAnchor alignment = TextAnchor.MiddleCenter,int fontSize = 12, Color color = default)
+        public static GUIStyle BoldLabel(TextAnchor alignment = TextAnchor.MiddleCenter, int fontSize = 12, Color color = default)
         {
-            var style = new GUIStyle(GUI.skin.label) 
-            { 
-                fontStyle = FontStyle.Bold, 
-                alignment = alignment, 
+            var style = new GUIStyle(GUI.skin.label)
+            {
+                fontStyle = FontStyle.Bold,
+                alignment = alignment,
                 fontSize = fontSize,
             };
-            if(color == default)
+            if (color == default)
             {
                 color = Color.white;
             }
             style.normal.textColor = color;
+            return style;
+        }
+        public static GUIStyle TextStyle(TextAnchor alignment = TextAnchor.UpperLeft
+        , FontStyle fontStyle = FontStyle.Normal, int fontSize = 12)
+        {
+            var style = new GUIStyle(GUI.skin.label)
+            {
+                fontStyle = fontStyle,
+                alignment = alignment,
+                fontSize = fontSize,
+                richText = true,
+            };
             return style;
         }
 
@@ -76,21 +88,21 @@ namespace Voxelity.Editor
             if (Button(text, styles))
                 doOn?.Invoke();
         }
-        public static void DisplayInWindow(Action content,string label = "")
+        public static void DisplayInWindow(Action content, string label = "")
         {
             EditorGUILayout.BeginVertical("window");
-            if(label != "")
+            if (label != "")
                 VoxelityGUI.Header(label);
-            
+
             content?.Invoke();
             EditorGUILayout.EndVertical();
         }
-        public static void DisplayInBox(Action content,string label = "")
+        public static void DisplayInBox(Action content, string label = "")
         {
             EditorGUILayout.BeginVertical("box");
-            if(label != "")
+            if (label != "")
                 VoxelityGUI.Header(label);
-            
+
             content?.Invoke();
             EditorGUILayout.EndVertical();
         }
@@ -105,6 +117,11 @@ namespace Voxelity.Editor
             EditorGUILayout.LabelField(text, style, GUILayout.ExpandWidth(true));
             if (useLine)
                 Line();
+        }
+        public static void Label(string label, GUIStyle style = null ,params GUILayoutOption[] options)
+        {
+            if(style == null) style = new GUIStyle(GUI.skin.label);
+            GUILayout.Label(label, style, options);
         }
         public static void Line(float height = 1f, Color color = default)
         {

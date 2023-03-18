@@ -14,6 +14,11 @@ namespace Voxelity.Saver
         protected string _root;
         protected VoxelitySaveSettings _settings;
 
+        public string Root
+        {
+            get => _root;
+        }
+
         /// <summary>
         /// Determines if the specified key exists
         /// </summary>

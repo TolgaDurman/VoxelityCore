@@ -9,6 +9,14 @@ namespace Voxelity.DataPacks
     public abstract class SavableDataObject<T> : SavableDataObjectBase
     {
         public Data<T> Data;
+        public T Value
+        {
+            get => Data.Value;
+            set
+            {
+                Data.Value = value;
+            }
+        }
         public override void Save()
         {
             Data.Save();

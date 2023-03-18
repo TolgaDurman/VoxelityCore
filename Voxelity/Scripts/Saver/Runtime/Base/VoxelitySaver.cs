@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Voxelity.Saver
 {
@@ -6,6 +7,21 @@ namespace Voxelity.Saver
     {
         private static Dictionary<string,VoxelitySaveWriter> ActiveWriters = new Dictionary<string, VoxelitySaveWriter>();
         private static Dictionary<string,VoxelitySaveReader> ActiveReaders = new Dictionary<string, VoxelitySaveReader>();
+
+        public static List<string> ReadersCached
+        {
+            get
+            {
+                return ActiveReaders.Keys.ToList();
+            }
+        }
+        public static List<string> WritersCached
+        {
+            get
+            {
+                return ActiveWriters.Keys.ToList();
+            }
+        }
         
         public static VoxelitySaveWriter GetWriter(string root)
         {

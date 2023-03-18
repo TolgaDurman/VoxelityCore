@@ -1,6 +1,6 @@
 {
   "name": "co.voxelstudio.voxelity",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "displayName": "Voxelity Core",
   "description": "Voxelity is a comprehensive collection of helper tools for Unity developers that streamlines workflow, simplifies common tasks, and optimizes performance, making it a valuable resource for developers of all skill levels working on any size project.",
   "documentationUrl": "https://www.voxelity.dev/",
@@ -57,12 +57,6 @@
       "interactiveImport": true
     },
     {
-      "displayName": "Prefab Level System",
-      "description": "0.0.1",
-      "path": "Samples~/Prefab Level System",
-      "interactiveImport": true
-    },
-    {
       "displayName": "Render To Texture",
       "description": "0.0.1",
       "path": "Samples~/Render To Texture",
@@ -90,6 +84,12 @@
       "displayName": "VoxelityInitializition",
       "description": "0.0.1",
       "path": "Samples~/VoxelityInitializition",
+      "interactiveImport": true
+    },
+    {
+      "displayName": "Prefab Level System",
+      "description": "0.0.2",
+      "path": "Samples~/Prefab Level System",
       "interactiveImport": true
     }
   ]

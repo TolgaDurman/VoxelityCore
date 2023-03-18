@@ -4,7 +4,10 @@ using UnityEngine;
 using Voxelity.Editor;
 using Voxelity.Editor.Tabs;
 using Voxelity.Extensions.Utility;
-using Voxelity.Saver.Core.Storage;
+using System.IO;
+using VFileAccess = Voxelity.Saver.Core.Storage.FileAccess;
+using Voxelity.Extensions;
+using UnityEditor;
 
 namespace Voxelity.Saver.Editor
 {
@@ -16,7 +19,58 @@ namespace Voxelity.Saver.Editor
             if (VoxelityGUI.Button("Open game saves path", GUILayout.Height(30)))
                 OpenDirectory.OpenPersistentDataPath();
             if (VoxelityGUI.Button("Delete All Saves", GUILayout.Height(30)))
-                EditorHelper.DeleteVisibleFilesAndFolders(FileAccess.BasePath);
+                EditorHelper.DeleteVisibleFilesAndFolders(VFileAccess.BasePath);
+            DisplaySaveWriters();
+            DisplaySaveReaders();
+            DisplayCurrentSaves();
+        }
+        private void DisplaySaveWriters()
+        {
+            VoxelityGUI.DisplayInBox(() =>
+            {
+                foreach (var item in VoxelitySaver.WritersCached)
+                {
+                    EditorGUILayout.BeginHorizontal();
+                    VoxelityGUI.Label(item);
+                    EditorGUILayout.EndHorizontal();
+                }
+            },"Writers");
+        }
+        private void DisplaySaveReaders()
+        {
+            VoxelityGUI.DisplayInBox(() =>
+            {
+                foreach (var item in VoxelitySaver.ReadersCached)
+                {
+                    EditorGUILayout.BeginHorizontal();
+                    VoxelityGUI.Label(item);
+                    EditorGUILayout.EndHorizontal();
+                }
+            },"Readers");
+        }
+
+        private void DisplayCurrentSaves()
+        {
+            string[] files = Directory.GetFiles(VFileAccess.BasePath, "*.json");
+            for (int i = 0; i < files.Length; i++)
+            {
+                string name = Path.GetFileNameWithoutExtension(files[i]);
+                if (files[i] == "") continue;
+                VoxelityGUI.DisplayInBox(() =>
+                {
+                    EditorGUILayout.BeginHorizontal();
+                    VoxelityGUI.Label(name.Colorize(Color.green), VoxelityGUI.TextStyle());
+                    if (VoxelityGUI.Button("Open", GUILayout.Width(50), GUILayout.Height(20)))
+                    {
+                        EditorUtility.RevealInFinder(files[i]);
+                    }
+                    if (VoxelityGUI.Button("Delete", GUILayout.Width(50), GUILayout.Height(20)))
+                    {
+                        File.Delete(files[i]);
+                    }
+                    EditorGUILayout.EndHorizontal();
+                });
+            }
         }
 
         public override VoxelityTabSetting TabSettings()

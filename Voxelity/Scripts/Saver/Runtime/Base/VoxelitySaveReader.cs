@@ -125,7 +125,7 @@ namespace Voxelity.Saver
         /// </summary>
         public void Reload()
         {
-            Load(false);
+            Load(true);
         }
     }
 }

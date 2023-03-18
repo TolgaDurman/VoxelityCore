@@ -29,12 +29,12 @@ namespace Voxelity.DataPacks
         }
         public void Load()
         {
+            Reader.Reload();
             if (!Reader.Exists(info.objectName))
             {
                 Save();
             }
-            Reader.Reload();
-            Value = Reader.Read<T>(info.objectName);
+            Reader.TryRead<T>(info.objectName,out Value);
         }
     }
 }
