@@ -5,7 +5,7 @@
     "Minor": 0,
     "Patch": 1
   },
-  "description": "",
+  "description": "Level System for a level based game. \nDependecies : \n-Game Loop",
   "packPath": "Packages/co.voxelstudio.voxelity/AddOns~/Prefab Level System",
   "interactiveImport": true
 }

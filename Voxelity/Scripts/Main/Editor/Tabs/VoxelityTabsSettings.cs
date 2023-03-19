@@ -8,8 +8,13 @@ using Voxelity.Extensions;
 namespace Voxelity.Editor.Tabs
 {
     [FilePath("VoxelitySettings/Tabs", FilePathAttribute.Location.PreferencesFolder)]
-    public class VoxelityTabsColorSettings : ScriptableSingleton<VoxelityTabsColorSettings>
+    public class VoxelityTabsSettings : ScriptableSingleton<VoxelityTabsSettings>
     {
+        public static bool FastRepaint
+        {
+            get => EditorPrefs.GetBool("FastRepaintVoxelity", false);
+            set => EditorPrefs.SetBool("FastRepaintVoxelity", value);
+        }
         public Color TabColor
         {
             get => VoxelityGUI.isDarkTheme ? tabBackgroundDark : tabBackgroundLight;
@@ -22,7 +27,7 @@ namespace Voxelity.Editor.Tabs
         public Color tabContentDark = new Color(0.22f, 0.22f, 0.22f);
         public Color tabBackgroundLight = new Color(0.66f, 0.66f, 0.66f);
         public Color tabContentLight = new Color(0.7843138f, 0.7843138f, 0.7843138f);
-
+        
         private void ResetColors()
         {
             tabBackgroundDark = new Color(0.1568628f, 0.1568628f, 0.1568628f);
@@ -47,12 +52,13 @@ namespace Voxelity.Editor.Tabs
             tabBackgroundLight = DisplayColor(tabBackgroundLight, "Tab BG").WithA(1f);
             tabContentLight = DisplayColor(tabContentLight, "Tab Content BG").WithA(1f);
             EditorGUILayout.EndVertical();
-            if(VoxelityGUI.InLineButton("Reset",()=>
+            FastRepaint = EditorGUILayout.Toggle("Fast Repaint", FastRepaint);
+            if (VoxelityGUI.InLineButton("Reset", () =>
             {
                 EditorGUILayout.Space();
-            }, false , GUILayout.Width(50)))
+            }, false, GUILayout.Width(50)))
             {
-                if(VoxelityGUI.AskUserDialog("Reset colors", "Do you want to reset tab colors to default?"))
+                if (VoxelityGUI.AskUserDialog("Reset colors", "Do you want to reset tab colors to default?"))
                 {
                     ResetColors();
                 }
@@ -68,19 +74,4 @@ namespace Voxelity.Editor.Tabs
             return color;
         }
     }
-    // public class VoxelityTabSettingProvider : SettingsProvider
-    // {
-    //     public VoxelityTabSettingProvider(string path, SettingsScope scopes, IEnumerable<string> keywords = null)
-    //     : base(path, scopes, keywords) { }
-    //     public override void OnGUI(string searchContext)
-    //     {
-    //         base.OnGUI(searchContext);
-    //         VoxelityTabsColorSettings.instance.OnGUI();
-    //     }
-    //     [SettingsProvider]
-    //     public static SettingsProvider CreateSettingProvider()
-    //     {
-    //         return new VoxelityTabSettingProvider("Voxelity/Tabs", SettingsScope.User);
-    //     }
-    // }
 }

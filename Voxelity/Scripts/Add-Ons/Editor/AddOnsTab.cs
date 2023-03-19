@@ -57,7 +57,7 @@ namespace Voxelity.AddOns.Editor
                 EditorGUILayout.EndHorizontal();
                 VoxelityGUI.Line();
                 if (addOn.description != "")
-                    EditorGUILayout.LabelField(addOn.description);
+                    EditorGUILayout.LabelField(addOn.description,new GUIStyle(GUI.skin.label){ richText=true ,wordWrap = true});
 
                 EditorGUILayout.LabelField("Version : " + addOn.version.ToVersionString());
                 if (!isPackInstalled)

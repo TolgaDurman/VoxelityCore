@@ -9,7 +9,7 @@ namespace Voxelity.Editor.Tabs
         VoxelityTabSetting mySetting = new VoxelityTabSetting("Tab Settings", 100);
         public override void OnGUI()
         {
-            VoxelityTabsColorSettings.instance.OnGUI();
+            VoxelityTabsSettings.instance.OnGUI();
         }
         public override VoxelityTabSetting TabSettings()
         {

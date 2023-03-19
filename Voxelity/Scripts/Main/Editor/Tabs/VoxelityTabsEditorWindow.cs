@@ -16,7 +16,6 @@ namespace Voxelity.Editor.Tabs
         private int currentTab = 0;
         private int oldTab = 0;
         private Vector2 tabScrollPos = Vector2.zero;
-        public bool pausePainting;
         private GUIStyle TabStyle
         {
             get
@@ -90,15 +89,16 @@ namespace Voxelity.Editor.Tabs
         {
             if (voxelityTabs.Count == 0) return;
             DrawTabs();
-            if(!pausePainting)
-                DrawContent();
+            DrawContent();
             DrawHandle();
+            if (VoxelityTabsSettings.FastRepaint)
+                Repaint();
         }
 
         private void DrawTabs()
         {
             tabRect = new Rect(0, 0, tabWidth, position.height);
-            EditorGUI.DrawRect(tabRect, VoxelityTabsColorSettings.instance.TabColor); //Tabs
+            EditorGUI.DrawRect(tabRect, VoxelityTabsSettings.instance.TabColor); //Tabs
 
             GUILayout.BeginArea(tabRect);
 
@@ -124,7 +124,7 @@ namespace Voxelity.Editor.Tabs
         {
             contentRect = new Rect(tabWidth, 0, position.width - tabWidth, position.height);
 
-            EditorGUI.DrawRect(contentRect, VoxelityTabsColorSettings.instance.TabContentColor);
+            EditorGUI.DrawRect(contentRect, VoxelityTabsSettings.instance.TabContentColor);
 
             GUILayout.BeginArea(contentRect);
             GUIStyle windowStyle = new GUIStyle("window")
@@ -132,7 +132,7 @@ namespace Voxelity.Editor.Tabs
                 name = voxelityTabs[currentTab].TabSettings().name,
                 fontStyle = FontStyle.Bold,
                 fontSize = 15,
-        };
+            };
             GUILayout.BeginVertical(voxelityTabs[currentTab].TabSettings().name, windowStyle);
             GUILayout.Space(10);
             VoxelityGUI.Line(2f);

@@ -5,7 +5,7 @@
     "Minor": 0,
     "Patch": 1
   },
-  "description": "",
+  "description": "Date and Time track system for game.",
   "packPath": "Packages/co.voxelstudio.voxelity/AddOns~/Date Time System",
   "interactiveImport": true
 }
