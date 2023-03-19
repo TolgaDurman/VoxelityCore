@@ -16,6 +16,7 @@ namespace Voxelity.Editor.Tabs
         private int currentTab = 0;
         private int oldTab = 0;
         private Vector2 tabScrollPos = Vector2.zero;
+        public bool pausePainting;
         private GUIStyle TabStyle
         {
             get
@@ -89,7 +90,8 @@ namespace Voxelity.Editor.Tabs
         {
             if (voxelityTabs.Count == 0) return;
             DrawTabs();
-            DrawContent();
+            if(!pausePainting)
+                DrawContent();
             DrawHandle();
         }
 
