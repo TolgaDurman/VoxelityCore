@@ -11,6 +11,7 @@ namespace Voxelity.Editor.Tabs
     {
         public virtual void Init() { }
         public virtual void OnSelected() { }
+        public virtual void OnDeselected() { }
         public abstract void OnGUI();
         public abstract VoxelityTabSetting TabSettings();
     }

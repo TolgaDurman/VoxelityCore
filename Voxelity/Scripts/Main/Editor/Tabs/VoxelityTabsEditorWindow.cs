@@ -12,7 +12,7 @@ namespace Voxelity.Editor.Tabs
     public class VoxelityTabsEditorWindow : EditorWindow
     {
         private List<VoxelityTab> voxelityTabs = new List<VoxelityTab>();
-
+        public static bool fastRefresh;
         private int currentTab = 0;
         private int oldTab = 0;
         private Vector2 tabScrollPos = Vector2.zero;
@@ -32,11 +32,7 @@ namespace Voxelity.Editor.Tabs
         private List<GUIContent> tabContents = new List<GUIContent>();
         private Rect tabRect;
         private Rect contentRect;
-
-
-
         private Vector2 contentScrollPos = Vector2.zero;
-
 
         private float tabWidth = 100;
         private bool isDragging;
@@ -91,7 +87,7 @@ namespace Voxelity.Editor.Tabs
             DrawTabs();
             DrawContent();
             DrawHandle();
-            if (VoxelityTabsSettings.FastRepaint)
+            if (VoxelityTabsSettings.FastRepaint || fastRefresh)
                 Repaint();
         }
 
@@ -110,6 +106,7 @@ namespace Voxelity.Editor.Tabs
 
             if (currentTab != oldTab)
             {
+                voxelityTabs[oldTab].OnDeselected();
                 voxelityTabs[currentTab].OnSelected();
                 oldTab = currentTab;
             }
@@ -123,9 +120,7 @@ namespace Voxelity.Editor.Tabs
         private void DrawContent()
         {
             contentRect = new Rect(tabWidth, 0, position.width - tabWidth, position.height);
-
             EditorGUI.DrawRect(contentRect, VoxelityTabsSettings.instance.TabContentColor);
-
             GUILayout.BeginArea(contentRect);
             GUIStyle windowStyle = new GUIStyle("window")
             {
