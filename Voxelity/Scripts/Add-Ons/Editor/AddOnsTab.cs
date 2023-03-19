@@ -59,6 +59,7 @@ namespace Voxelity.AddOns.Editor
                 if (addOn.description != "")
                     EditorGUILayout.LabelField(addOn.description);
 
+                EditorGUILayout.LabelField("Version : " + addOn.version.ToVersionString());
                 if (!isPackInstalled)
                 {
                     if (VoxelityGUI.Button("Install", GUILayout.Width(50), GUILayout.Height(17)))
@@ -70,10 +71,10 @@ namespace Voxelity.AddOns.Editor
                 {
                     bool hasUpdate = false;
                     string addOnInProjectPath = Path.Combine(AddOnsUtility.AddOnsFullPathImported, addOn.packName);
-                    EditorGUILayout.LabelField("Version : " + addOn.version.ToVersionString());
                     if (!File.Exists(AddOnsUtility.GetDataInfoPath(addOn.packName, Path.Combine(AddOnsUtility.AddOnsFullPathImported, addOn.packName))))
                     {
                         hasUpdate = true;
+                        EditorGUILayout.LabelField("Version info not available");
                     }
                     else
                     {

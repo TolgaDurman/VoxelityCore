@@ -1,6 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+#if UNITY_EDITOR
+using UnityEditor;
+#else
+using UnityEngine;
+#endif
 
 namespace Voxelity.Saver.Core.Storage
 {
@@ -8,7 +13,7 @@ namespace Voxelity.Saver.Core.Storage
     {
         private const string _defaultExtension = ".json";
 
-        public static string BasePath => Path.Combine(VoxelitySaverGlobalSettings.StorageLocation, "Saves").Replace('\\','/');
+        public static string BasePath => Path.Combine(VoxelitySaverGlobalSettings.StorageLocation, "Saves");
 
         public static bool SaveString(string filename, bool includesExtension, string value)
         {
@@ -30,6 +35,15 @@ namespace Voxelity.Saver.Core.Storage
             }
 
             return false;
+        }
+        #if UNITY_EDITOR
+        [InitializeOnLoadMethod]
+        #else
+        [RuntimeInitializeOnLoadMethod]
+        #endif
+        public static void Initialize()
+        {
+            if(!Directory.Exists(BasePath)) Directory.CreateDirectory(BasePath);
         }
 
         public static bool SaveBytes(string filename, bool includesExtension, byte[] value)
