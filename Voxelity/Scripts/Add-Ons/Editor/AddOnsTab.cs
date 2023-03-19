@@ -70,23 +70,19 @@ namespace Voxelity.AddOns.Editor
                 {
                     bool hasUpdate = false;
                     string addOnInProjectPath = Path.Combine(AddOnsUtility.AddOnsFullPathImported, addOn.packName);
-                    AddOnInfo projectInfo = AddOnsUtility.GetAddOnInfoAt(addOn.packName, addOnInProjectPath);
-                    if (projectInfo == null)
+                    EditorGUILayout.LabelField("Version : " + addOn.version.ToVersionString());
+                    if (!File.Exists(AddOnsUtility.GetDataInfoPath(addOn.packName, Path.Combine(AddOnsUtility.AddOnsFullPathImported, addOn.packName))))
                     {
                         hasUpdate = true;
-                    }
-                    else if (projectInfo.version < addOn.version)
-                    {
-                        hasUpdate = true;
-                        EditorGUILayout.LabelField("Current Version : " + projectInfo.version.ToVersionString());
                     }
                     else
                     {
-                        EditorGUILayout.LabelField("Version : " + addOn.version.ToVersionString());
-                    }
-                    if (hasUpdate)
-                    {
-                        EditorGUILayout.LabelField("Available Version : " + addOn.version.ToVersionString());
+                        AddOnInfo projectInfo = AddOnsUtility.GetAddOnInfoAt(addOn.packName, addOnInProjectPath);
+                        if (projectInfo.version < addOn.version)
+                        {
+                            EditorGUILayout.LabelField("Current Version : " + projectInfo.version.ToVersionString());
+                            hasUpdate = true;
+                        }
                     }
 
                     string[] buttonNames = new string[2] { hasUpdate ? "Update" : "Re-Install", "Remove" };
