@@ -5,7 +5,7 @@
     "Minor": 0,
     "Patch": 1
   },
-  "description": "",
+  "description": "Texture Rendering scene for Unity Internal renders",
   "packPath": "Packages/co.voxelstudio.voxelity/AddOns~/Render To Texture",
   "interactiveImport": true
 }

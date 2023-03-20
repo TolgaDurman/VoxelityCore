@@ -5,7 +5,7 @@
     "Minor": 0,
     "Patch": 1
   },
-  "description": "",
+  "description": "Tick System for idle based or tick based games",
   "packPath": "Packages/co.voxelstudio.voxelity/AddOns~/Tick System",
   "interactiveImport": true
 }

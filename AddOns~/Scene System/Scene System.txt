@@ -5,7 +5,7 @@
     "Minor": 0,
     "Patch": 1
   },
-  "description": "",
+  "description": "Scene Utility system for editor.",
   "packPath": "Packages/co.voxelstudio.voxelity/AddOns~/Scene System",
   "interactiveImport": true
 }

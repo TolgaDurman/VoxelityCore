@@ -5,7 +5,7 @@
     "Minor": 0,
     "Patch": 1
   },
-  "description": "",
+  "description": "Game Loop pack",
   "packPath": "Packages/co.voxelstudio.voxelity/AddOns~/Game Loop",
   "interactiveImport": true
 }

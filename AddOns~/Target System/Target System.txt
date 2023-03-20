@@ -5,7 +5,7 @@
     "Minor": 0,
     "Patch": 1
   },
-  "description": "",
+  "description": "Targeting system for 2D and 3D games",
   "packPath": "Packages/co.voxelstudio.voxelity/AddOns~/Target System",
   "interactiveImport": true
 }

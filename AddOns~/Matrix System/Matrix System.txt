@@ -5,7 +5,7 @@
     "Minor": 0,
     "Patch": 1
   },
-  "description": "",
+  "description": "Matrix Creating system",
   "packPath": "Packages/co.voxelstudio.voxelity/AddOns~/Matrix System",
   "interactiveImport": true
 }

@@ -12,7 +12,7 @@ namespace Voxelity.AddOns.Editor
 {
     public static class AddOnsUtility
     {
-        public const string InfoName = ".info";
+        public const string InfoName = ".txt";
         public static readonly string AddOnsPath = "Packages/co.voxelstudio.voxelity/AddOns~";
         public static readonly string AddOnsPathImported = "Assets/Voxel Studio/Add-Ons";
         public static readonly string AddOnsFullPath = Application.dataPath.TrimEnd("Assets".ToCharArray()) + AddOnsPath;

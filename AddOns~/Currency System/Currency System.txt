@@ -5,7 +5,7 @@
     "Minor": 0,
     "Patch": 1
   },
-  "description": "",
+  "description": "Currency System for the game.",
   "packPath": "Packages/co.voxelstudio.voxelity/AddOns~/Currency System",
   "interactiveImport": true
 }

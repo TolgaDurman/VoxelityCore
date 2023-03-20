@@ -5,7 +5,7 @@
     "Minor": 0,
     "Patch": 1
   },
-  "description": "",
+  "description": "Not Available yet.",
   "packPath": "Packages/co.voxelstudio.voxelity/AddOns~/D-N Cycle System",
   "interactiveImport": true
 }
