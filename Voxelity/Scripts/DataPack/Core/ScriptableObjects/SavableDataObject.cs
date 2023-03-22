@@ -17,6 +17,13 @@ namespace Voxelity.DataPacks
                 Data.Value = value;
             }
         }
+<<<<<<< Updated upstream
+=======
+        public override void SetToDefaultValue()
+        {
+            Data.LoadDefaultValue();
+        }
+>>>>>>> Stashed changes
         public override void Save()
         {
             Data.Save();
@@ -28,6 +35,7 @@ namespace Voxelity.DataPacks
     }
     public abstract class SavableDataObjectBase : ScriptableObject
     {
+        public abstract void SetToDefaultValue();
         public abstract void Save();
         public abstract void Load();
     } 

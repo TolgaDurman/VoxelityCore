@@ -1,3 +1,4 @@
+using UnityEngine;
 using Voxelity.Saver;
 
 namespace Voxelity.DataPacks
@@ -7,6 +8,7 @@ namespace Voxelity.DataPacks
     {
         public DataInfo info;
         public T Value;
+        [SerializeField] private T DefaultValue;
         public Data(DataInfo info, T value)
         {
             this.info = info;
@@ -27,6 +29,13 @@ namespace Voxelity.DataPacks
             Writer.Write(info.objectName, Value);
             Writer.TryCommit();
         }
+        public void LoadDefaultValue()
+        {
+            Writer.Write(info.objectName, DefaultValue);
+            Writer.TryCommit();
+            Reader.Reload();
+            Reader.TryRead<T>(info.objectName, out Value);
+        }
         public void Load()
         {
             Reader.Reload();
@@ -34,7 +43,12 @@ namespace Voxelity.DataPacks
             {
                 Save();
             }
+<<<<<<< Updated upstream
             Reader.TryRead<T>(info.objectName,out Value);
+=======
+            Reader.Reload();
+            Reader.TryRead<T>(info.objectName, out Value);
+>>>>>>> Stashed changes
         }
     }
 }

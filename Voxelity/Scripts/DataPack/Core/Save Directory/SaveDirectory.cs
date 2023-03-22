@@ -39,14 +39,6 @@ namespace Voxelity.DataPacks.SaveDir
             FileAccess.Delete(name, false);
             Debug.Log(name + " : Save File deleted");
         }
-        [RuntimeInitializeOnLoadMethod]
-        public void Refresh()
-        {
-            foreach (var item in savables)
-            {
-                item.directory = this;
-            }
-        }
         public void Write<T>(Savable<T> savable)
         {
             Writer.Write(savable.name, savable.Value);

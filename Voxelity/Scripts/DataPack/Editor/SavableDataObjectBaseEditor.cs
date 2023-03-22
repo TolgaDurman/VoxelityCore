@@ -18,6 +18,10 @@ namespace Voxelity.DataPacks.Editor
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
+            if (VoxelityGUI.Button("Set Default Value",GUILayout.Height(50)))
+            {
+                targetObj.SetToDefaultValue();
+            }
             if (VoxelityGUI.Button("Save",GUILayout.Height(50)))
             {
                 targetObj.Save();

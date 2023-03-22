@@ -43,11 +43,6 @@ namespace Voxelity.DataPacks.SaveDir.Editor
             }
             return targetObject.lockObj;
         }
-        public void OnEnable()
-        {
-            if (target != null)
-                targetObject.Refresh();
-        }
         public override void OnInspectorGUI()
         {
             if (HasMatchingName())
