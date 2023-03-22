@@ -17,13 +17,10 @@ namespace Voxelity.DataPacks
                 Data.Value = value;
             }
         }
-<<<<<<< Updated upstream
-=======
         public override void SetToDefaultValue()
         {
             Data.LoadDefaultValue();
         }
->>>>>>> Stashed changes
         public override void Save()
         {
             Data.Save();

@@ -3,11 +3,7 @@
   "version": {
     "Major": 0,
     "Minor": 0,
-<<<<<<< Updated upstream
-    "Patch": 1
-=======
     "Patch": 2
->>>>>>> Stashed changes
   },
   "description": "Level System for level based games\nDependecies:\n-Game Loop",
   "packPath": "Packages/co.voxelstudio.voxelity/AddOns~/Prefab Level System",

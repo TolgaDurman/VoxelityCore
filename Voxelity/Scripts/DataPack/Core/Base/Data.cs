@@ -38,17 +38,12 @@ namespace Voxelity.DataPacks
         }
         public void Load()
         {
-            Reader.Reload();
             if (!Reader.Exists(info.objectName))
             {
                 Save();
             }
-<<<<<<< Updated upstream
-            Reader.TryRead<T>(info.objectName,out Value);
-=======
             Reader.Reload();
             Reader.TryRead<T>(info.objectName, out Value);
->>>>>>> Stashed changes
         }
     }
 }

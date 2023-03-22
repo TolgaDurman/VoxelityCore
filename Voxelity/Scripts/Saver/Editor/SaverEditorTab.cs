@@ -34,11 +34,7 @@ namespace Voxelity.Saver.Editor
                     VoxelityGUI.Label(item);
                     EditorGUILayout.EndHorizontal();
                 }
-<<<<<<< Updated upstream
-            },"Writers");
-=======
             }, "Writers");
->>>>>>> Stashed changes
         }
         private void DisplaySaveReaders()
         {
@@ -50,37 +46,12 @@ namespace Voxelity.Saver.Editor
                     VoxelityGUI.Label(item);
                     EditorGUILayout.EndHorizontal();
                 }
-<<<<<<< Updated upstream
-            },"Readers");
-=======
             }, "Readers");
->>>>>>> Stashed changes
         }
 
         private void DisplayCurrentSaves()
         {
             string[] files = Directory.GetFiles(VFileAccess.BasePath, "*.json");
-<<<<<<< Updated upstream
-            for (int i = 0; i < files.Length; i++)
-            {
-                string name = Path.GetFileNameWithoutExtension(files[i]);
-                if (files[i] == "") continue;
-                VoxelityGUI.DisplayInBox(() =>
-                {
-                    EditorGUILayout.BeginHorizontal();
-                    VoxelityGUI.Label(name.Colorize(Color.green), VoxelityGUI.TextStyle());
-                    if (VoxelityGUI.Button("Open", GUILayout.Width(50), GUILayout.Height(20)))
-                    {
-                        EditorUtility.RevealInFinder(files[i]);
-                    }
-                    if (VoxelityGUI.Button("Delete", GUILayout.Width(50), GUILayout.Height(20)))
-                    {
-                        File.Delete(files[i]);
-                    }
-                    EditorGUILayout.EndHorizontal();
-                });
-            }
-=======
             VoxelityGUI.DisplayInBox(() =>
             {
                 for (int i = 0; i < files.Length; i++)
@@ -103,7 +74,6 @@ namespace Voxelity.Saver.Editor
                     });
                 }
             }, "Saved Jsons");
->>>>>>> Stashed changes
         }
 
         public override VoxelityTabSetting TabSettings()
