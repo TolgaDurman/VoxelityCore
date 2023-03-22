@@ -3,7 +3,7 @@
   "version": {
     "Major": 0,
     "Minor": 0,
-    "Patch": 2
+    "Patch": 3
   },
   "description": "Game Loop pack",
   "packPath": "Packages/co.voxelstudio.voxelity/AddOns~/Game Loop",
