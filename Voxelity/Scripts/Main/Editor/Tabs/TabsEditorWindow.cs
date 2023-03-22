@@ -9,9 +9,9 @@ using Voxelity.Editor;
 
 namespace Voxelity.Editor.Tabs
 {
-    public class VoxelityTabsEditorWindow : EditorWindow
+    public class TabsEditorWindow : EditorWindow
     {
-        private List<VoxelityTab> voxelityTabs = new List<VoxelityTab>();
+        private List<Tab> Tabs = new List<Tab>();
         public static bool fastRefresh;
         private int currentTab = 0;
         private int oldTab = 0;
@@ -48,53 +48,53 @@ namespace Voxelity.Editor.Tabs
         [MenuItem("Voxelity/Voxel Tabs %#v", priority = -101)]
         public static void ShowWindow()
         {
-            var targetWindow = GetWindow<VoxelityTabsEditorWindow>("Voxelity");
+            var targetWindow = GetWindow<TabsEditorWindow>("Voxelity");
             GUIContent titleContent = new GUIContent("Voxelity", TabWindowIcon);
             targetWindow.titleContent = titleContent;
         }
         private void OnEnable()
         {
-            voxelityTabs.Clear();
+            Tabs.Clear();
             tabContents.Clear();
             InitializeTabs();
             OrderTabs();
-            voxelityTabs[currentTab].OnSelected();
+            Tabs[currentTab].OnSelected();
         }
         private void InitializeTabs()
         {
             Type[] typesWithTabAttribute = ReflectionUtility.GetTypesWith<TabAttribute>();
             foreach (var type in typesWithTabAttribute)
             {
-                if (type.IsSubclassOf(typeof(VoxelityTab)))
+                if (type.IsSubclassOf(typeof(Tab)))
                 {
-                    VoxelityTab voxelityTab = (VoxelityTab)Activator.CreateInstance(type);
-                    voxelityTabs.Add(voxelityTab);
+                    Tab Tab = (Tab)Activator.CreateInstance(type);
+                    Tabs.Add(Tab);
                 }
             }
         }
         private void OrderTabs()
         {
-            voxelityTabs = voxelityTabs.OrderBy(x => x.TabSettings().priority).ToList();
-            voxelityTabs.ForEach(x =>
+            Tabs = Tabs.OrderBy(x => x.TabInfo().priority).ToList();
+            Tabs.ForEach(x =>
             {
                 x.Init();
-                tabContents.Add(new GUIContent(x.TabSettings().name, x.TabSettings().icon, x.TabSettings().toolTip));
+                tabContents.Add(new GUIContent(x.TabInfo().name, x.TabInfo().icon, x.TabInfo().toolTip));
             });
         }
         public void OnGUI()
         {
-            if (voxelityTabs.Count == 0) return;
+            if (Tabs.Count == 0) return;
             DrawTabs();
             DrawContent();
             DrawHandle();
-            if (VoxelityTabsSettings.FastRepaint || fastRefresh)
+            if (VoxelitySettings.FastRepaint || fastRefresh)
                 Repaint();
         }
 
         private void DrawTabs()
         {
             tabRect = new Rect(0, 0, tabWidth, position.height);
-            EditorGUI.DrawRect(tabRect, VoxelityTabsSettings.instance.TabColor); //Tabs
+            EditorGUI.DrawRect(tabRect, VoxelitySettings.instance.TabColor); //Tabs
 
             GUILayout.BeginArea(tabRect);
 
@@ -106,8 +106,8 @@ namespace Voxelity.Editor.Tabs
 
             if (currentTab != oldTab)
             {
-                voxelityTabs[oldTab].OnDeselected();
-                voxelityTabs[currentTab].OnSelected();
+                Tabs[oldTab].OnDeselected();
+                Tabs[currentTab].OnSelected();
                 oldTab = currentTab;
             }
 
@@ -120,20 +120,20 @@ namespace Voxelity.Editor.Tabs
         private void DrawContent()
         {
             contentRect = new Rect(tabWidth, 0, position.width - tabWidth, position.height);
-            EditorGUI.DrawRect(contentRect, VoxelityTabsSettings.instance.TabContentColor);
+            EditorGUI.DrawRect(contentRect, VoxelitySettings.instance.TabContentColor);
             GUILayout.BeginArea(contentRect);
             GUIStyle windowStyle = new GUIStyle("window")
             {
-                name = voxelityTabs[currentTab].TabSettings().name,
+                name = Tabs[currentTab].TabInfo().name,
                 fontStyle = FontStyle.Bold,
                 fontSize = 15,
             };
-            GUILayout.BeginVertical(voxelityTabs[currentTab].TabSettings().name, windowStyle);
+            GUILayout.BeginVertical(Tabs[currentTab].TabInfo().name, windowStyle);
             GUILayout.Space(10);
             VoxelityGUI.Line(2f);
             contentScrollPos = EditorGUILayout.BeginScrollView(contentScrollPos, GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(true));
 
-            voxelityTabs[currentTab].OnGUI();
+            Tabs[currentTab].OnGUI();
 
             GUILayout.EndVertical();
 

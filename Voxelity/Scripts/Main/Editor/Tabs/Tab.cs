@@ -7,12 +7,12 @@ using UnityEngine;
 namespace Voxelity.Editor.Tabs
 {
     [Tab]
-    public abstract class VoxelityTab
+    public abstract class Tab
     {
         public virtual void Init() { }
         public virtual void OnSelected() { }
         public virtual void OnDeselected() { }
         public abstract void OnGUI();
-        public abstract VoxelityTabSetting TabSettings();
+        public abstract TabData TabInfo();
     }
 }

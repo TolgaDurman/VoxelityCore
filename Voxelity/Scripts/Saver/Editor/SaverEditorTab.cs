@@ -11,9 +11,9 @@ using UnityEditor;
 
 namespace Voxelity.Saver.Editor
 {
-    public class SaverEditorTab : VoxelityTab
+    public class SaverEditorTab : Tab
     {
-        VoxelityTabSetting _settings = new VoxelityTabSetting("Save");
+        TabData _settings = new TabData("Save", -1000, "", EditorGUIUtility.IconContent("d_Profiler.Memory").image);
         public override void OnGUI()
         {
             if (VoxelityGUI.Button("Open game saves path", GUILayout.Height(30)))
@@ -76,7 +76,7 @@ namespace Voxelity.Saver.Editor
             }, "Saved Jsons");
         }
 
-        public override VoxelityTabSetting TabSettings()
+        public override TabData TabInfo()
         {
             return _settings;
         }

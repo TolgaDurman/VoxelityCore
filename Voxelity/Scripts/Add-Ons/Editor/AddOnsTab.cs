@@ -12,9 +12,9 @@ using UnityEditor.PackageManager.Requests;
 
 namespace Voxelity.AddOns.Editor
 {
-    public class AddOnsTab : VoxelityTab
+    public class AddOnsTab : Tab
     {
-        private VoxelityTabSetting setting = new("Add-Ons", -1, "Voxelity Add-Ons");
+        private TabData setting = new("Add-Ons", -1001, "Voxelity Add-Ons",EditorGUIUtility.IconContent("d_CustomTool").image);
         bool[] isInstalled;
         string[] addonFolders;
         string[] addonFoldersInProject;
@@ -105,6 +105,6 @@ namespace Voxelity.AddOns.Editor
             });
         }
 
-        public override VoxelityTabSetting TabSettings() => setting;
+        public override TabData TabInfo() => setting;
     }
 }

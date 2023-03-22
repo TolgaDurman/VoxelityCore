@@ -8,7 +8,7 @@ using Voxelity.Extensions;
 namespace Voxelity.Editor.Tabs
 {
     [FilePath("VoxelitySettings/Tabs", FilePathAttribute.Location.PreferencesFolder)]
-    public class VoxelityTabsSettings : ScriptableSingleton<VoxelityTabsSettings>
+    public class VoxelitySettings : ScriptableSingleton<VoxelitySettings>
     {
         public static bool FastRepaint
         {

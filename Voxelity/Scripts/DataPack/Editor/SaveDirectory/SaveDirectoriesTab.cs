@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace Voxelity.DataPacks.SaveDir.Editor
 {
-    public class SaveDirectoriesTab : VoxelityTab
+    public class SaveDirectoriesTab : Tab
     {
         WindowEditorDisplay<SaveDirectory, SaveDirectoryEditor> itemsDisplay =
         new WindowEditorDisplay<SaveDirectory, SaveDirectoryEditor>(true, true, "LevelSaves", "ProjectSettings");
@@ -20,7 +20,7 @@ namespace Voxelity.DataPacks.SaveDir.Editor
             get => Resources.FindObjectsOfTypeAll<SaveDirectory>();
         }
 
-        private VoxelityTabSetting tabSettings = new VoxelityTabSetting("Save Directories", -101);
+        private TabData tabData = new TabData("Save Directories", -999,"",EditorGUIUtility.IconContent("d_Profiler.NetworkOperations").image);
 
         public override void OnSelected()
         {
@@ -59,9 +59,9 @@ namespace Voxelity.DataPacks.SaveDir.Editor
             });
         }
 
-        public override VoxelityTabSetting TabSettings()
+        public override TabData TabInfo()
         {
-            return tabSettings;
+            return tabData;
         }
     }
 }
