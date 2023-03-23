@@ -69,6 +69,13 @@ namespace Voxelity.Editor
             EditorUtility.FocusProjectWindow();
             EditorGUIUtility.PingObject(obj);
         }
+        public static void PingObject(Object obj)
+        {
+            string path = AssetDatabase.GetAssetPath(obj);
+            Selection.activeObject = obj;
+            EditorUtility.FocusProjectWindow();
+            EditorGUIUtility.PingObject(obj);
+        }
 
 
         public static string GetPath(string path, bool isObject = false)
@@ -106,6 +113,16 @@ namespace Voxelity.Editor
                 assets.Add(asset);
             }
             return assets;
+        }
+        public static bool PathIsResourcesFolder(string path)
+        {
+            string[] folders = path.Split("/");
+            if (folders.Length <= 2) return false;
+            if (folders[folders.Length - 2] == "Resources")
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

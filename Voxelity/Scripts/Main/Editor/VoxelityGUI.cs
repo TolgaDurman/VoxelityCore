@@ -118,9 +118,9 @@ namespace Voxelity.Editor
             if (useLine)
                 Line();
         }
-        public static void Label(string label, GUIStyle style = null ,params GUILayoutOption[] options)
+        public static void Label(string label, GUIStyle style = null, params GUILayoutOption[] options)
         {
-            if(style == null) style = new GUIStyle(GUI.skin.label);
+            if (style == null) style = new GUIStyle(GUI.skin.label);
             GUILayout.Label(label, style, options);
         }
         public static void Line(float height = 1f, Color color = default)
@@ -153,6 +153,8 @@ namespace Voxelity.Editor
         public static void ScriptableObjectGUI(ScriptableObject obj, List<string> ignoredProperties = null)
         {
             GUILayout.Space(10f);
+            if (!EditorUtility.IsDirty(obj))
+                EditorUtility.SetDirty(obj);
             GUIStyle verticalWindowStyle = new GUIStyle("window")
             {
                 stretchHeight = false,
@@ -181,7 +183,11 @@ namespace Voxelity.Editor
             }
             GUILayout.Space(10f);
             GUILayout.EndVertical();
-            serializedObject.ApplyModifiedProperties();
+            if (serializedObject.hasModifiedProperties)
+            {
+                serializedObject.ApplyModifiedProperties();
+                AssetDatabase.SaveAssetIfDirty(obj);
+            }
         }
         public static bool InLineButton(string label, Action inLine, bool isLeft = false, params GUILayoutOption[] layoutOptions)
         {
