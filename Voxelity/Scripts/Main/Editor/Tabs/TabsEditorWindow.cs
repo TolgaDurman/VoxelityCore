@@ -11,6 +11,7 @@ namespace Voxelity.Editor.Tabs
 {
     public class TabsEditorWindow : EditorWindow
     {
+        public static TabsEditorWindow Instance;
         private List<Tab> Tabs = new List<Tab>();
         public static bool fastRefresh;
         private int currentTab = 0;
@@ -51,6 +52,7 @@ namespace Voxelity.Editor.Tabs
             var targetWindow = GetWindow<TabsEditorWindow>("Voxelity");
             GUIContent titleContent = new GUIContent("Voxelity", TabWindowIcon);
             targetWindow.titleContent = titleContent;
+            if(Instance == null) Instance = targetWindow;
         }
         private void OnEnable()
         {
@@ -89,6 +91,10 @@ namespace Voxelity.Editor.Tabs
             DrawHandle();
             if (VoxelitySettings.FastRepaint || fastRefresh)
                 Repaint();
+        }
+        public void ChangeTabIcon(string tabName, Texture newIcon)
+        {
+            tabContents.Where(x => x.text == tabName).First().image = newIcon;
         }
 
         private void DrawTabs()

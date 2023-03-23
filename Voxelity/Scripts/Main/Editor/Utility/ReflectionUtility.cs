@@ -15,12 +15,23 @@ namespace Voxelity.Editor
             Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
             foreach (Assembly assembly in assemblies)
             {
-                Type[] types = assembly.GetTypes();
-                foreach (Type type in types)
+                try
                 {
-                    if (type.GetCustomAttribute<T>() != null)
+                    Type[] types = assembly.GetTypes();
+                    foreach (Type type in types)
                     {
-                        typesWithAttribute.Add(type.GetTypeInfo());
+                        if (type.GetCustomAttribute<T>() != null)
+                        {
+                            typesWithAttribute.Add(type.GetTypeInfo());
+                        }
+                    }
+                }
+                catch (ReflectionTypeLoadException ex)
+                {
+                    Debug.LogWarning($"Failed to load types from assembly '{assembly.FullName}': {ex.Message}");
+                    foreach (var loaderException in ex.LoaderExceptions)
+                    {
+                        Debug.LogWarning($"  {loaderException.Message}");
                     }
                 }
             }
