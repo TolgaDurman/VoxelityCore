@@ -228,5 +228,13 @@ namespace Voxelity.Editor
             EditorGUILayout.EndHorizontal();
             return false;
         }
+        public static Color DisplayColor(Color color, string name)
+        {
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField(name, GUILayout.Width(120));
+            color = EditorGUILayout.ColorField(color);
+            EditorGUILayout.EndHorizontal();
+            return color;
+        }
     }
 }

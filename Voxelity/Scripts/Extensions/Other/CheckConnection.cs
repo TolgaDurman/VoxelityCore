@@ -50,7 +50,7 @@ namespace Voxelity.Extensions.Utility
             {
                 //Redirecting since the beginning of googles html contains that 
                 //phrase and it was not found
-                Debug.LogWarning("Connected to internet can't direct to google.com");
+                VDebug.LogWarning("Connected to internet can't direct to google.com");
                 return false;
             }
             else

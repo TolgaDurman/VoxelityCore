@@ -85,7 +85,7 @@ namespace Voxelity.Extensions
             {
                 return true;
             }
-            Debug.LogWarning($"Couldn't parse the string ({self.Colorize(Color.white)}) to " +
+            VDebug.LogWarning($"Couldn't parse the string ({self.Colorize(Color.white)}) to " +
                              "c".Colorize(Color.red) + "o".Colorize(Color.yellow) + "l".Colorize(Color.green) + "o".Colorize(Color.cyan)
                              + "r".Colorize(Color.blue));
             return false;

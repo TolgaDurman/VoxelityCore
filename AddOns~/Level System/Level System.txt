@@ -1,0 +1,11 @@
+{
+  "packName": "Level System",
+  "version": {
+    "Major": 0,
+    "Minor": 0,
+    "Patch": 1
+  },
+  "description": "Level System for level based games.\nDependecies:\n-Game Loop",
+  "packPath": "Packages/co.voxelstudio.voxelity/AddOns~/Level System",
+  "interactiveImport": true
+}

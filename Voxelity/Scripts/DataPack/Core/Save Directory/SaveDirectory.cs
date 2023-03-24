@@ -37,7 +37,7 @@ namespace Voxelity.DataPacks.SaveDir
         public void DeleteSaveFile()
         {
             FileAccess.Delete(name, false);
-            Debug.Log(name + " : Save File deleted");
+            VDebug.Log(name + " : Save File deleted");
         }
         public void Write<T>(Savable<T> savable)
         {

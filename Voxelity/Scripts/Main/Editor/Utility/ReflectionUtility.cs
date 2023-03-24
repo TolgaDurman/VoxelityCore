@@ -28,10 +28,10 @@ namespace Voxelity.Editor
                 }
                 catch (ReflectionTypeLoadException ex)
                 {
-                    Debug.LogWarning($"Failed to load types from assembly '{assembly.FullName}': {ex.Message}");
+                    VDebug.LogWarning($"Failed to load types from assembly '{assembly.FullName}': {ex.Message}");
                     foreach (var loaderException in ex.LoaderExceptions)
                     {
-                        Debug.LogWarning($"  {loaderException.Message}");
+                        VDebug.LogWarning($"  {loaderException.Message}");
                     }
                 }
             }
