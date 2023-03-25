@@ -12,7 +12,7 @@ namespace Voxelity.Editor.Tabs
     public class TabsEditorWindow : EditorWindow
     {
         public static TabsEditorWindow Instance;
-        private List<Tab> Tabs = new List<Tab>();
+        private List<ITab> Tabs = new List<ITab>();
         public static bool fastRefresh;
         private int currentTab = 0;
         private int oldTab = 0;
@@ -69,7 +69,12 @@ namespace Voxelity.Editor.Tabs
             {
                 if (type.IsSubclassOf(typeof(Tab)))
                 {
-                    Tab Tab = (Tab)Activator.CreateInstance(type);
+                    ITab Tab = (ITab)Activator.CreateInstance(type);
+                    Tabs.Add(Tab);
+                }
+                if(type.IsSubclassOf(typeof(TabObject)))
+                {
+                    ITab Tab = (ITab)ScriptableObject.CreateInstance(type);
                     Tabs.Add(Tab);
                 }
             }
@@ -138,6 +143,12 @@ namespace Voxelity.Editor.Tabs
             GUILayout.Space(10);
             VoxelityGUI.Line(2f);
             contentScrollPos = EditorGUILayout.BeginScrollView(contentScrollPos, GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(true));
+
+            if(Tabs[currentTab].GetType().IsSubclassOf(typeof(TabObject)))
+            {
+                TabObject obj = (TabObject)Tabs[currentTab];
+                VoxelityGUI.ScriptableObjectGUI(obj);
+            }
 
             Tabs[currentTab].OnGUI();
 
