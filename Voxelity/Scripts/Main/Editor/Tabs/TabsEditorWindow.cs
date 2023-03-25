@@ -64,7 +64,7 @@ namespace Voxelity.Editor.Tabs
         }
         private void InitializeTabs()
         {
-            Type[] typesWithTabAttribute = ReflectionUtility.GetTypesWith<TabAttribute>();
+            Type[] typesWithTabAttribute = ReflectionUtility.GetTypesWith<VTabAttribute>();
             foreach (var type in typesWithTabAttribute)
             {
                 if (type.IsSubclassOf(typeof(Tab)))

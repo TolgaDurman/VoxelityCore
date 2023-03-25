@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Voxelity.Editor.Tabs
 {
-    [Tab]
+    [VTab]
     public abstract class Tab : ITab
     {
         public virtual void Init() { }
