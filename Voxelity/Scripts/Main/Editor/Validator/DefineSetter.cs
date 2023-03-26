@@ -16,7 +16,7 @@ namespace Voxelity.Editor
         [InitializeOnLoadMethod]
         private static void AddDefine()
         {
-            AddSymbols(defineName);
+            EditorHelper.AddSymbols(defineName);
         }
 #endif
     }
