@@ -42,12 +42,12 @@ namespace Voxelity.Editor
 
             if (addRequest.Status == StatusCode.Success)
             {
-                VDebug.Log("Package added successfully.");
+                Debug.Log("Package added successfully.");
                 AssetDatabase.Refresh();
             }
             else
             {
-                VDebug.LogError("Failed to add package: " + addRequest.Error.message);
+                Debug.LogError("Failed to add package: " + addRequest.Error.message);
             }
         }
     }

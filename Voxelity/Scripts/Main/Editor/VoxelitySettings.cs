@@ -100,7 +100,7 @@ namespace Voxelity.Editor
         public void OnGUI()
         {
             TabSettings();
-            LogSettings();
+            //LogSettings();
             Save(true);
         }
     }
