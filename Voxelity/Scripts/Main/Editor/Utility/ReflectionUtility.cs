@@ -116,5 +116,29 @@ namespace Voxelity.Editor
             }
             return fields.ToArray();
         }
+        public static MethodInfo[] GetMethodsWithInterface<T>(BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance) where T : class
+        {
+            List<MethodInfo> methods = new List<MethodInfo>();
+            var type = typeof(T);
+            var types = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(s => s.GetTypes())
+                .Where(p => type.IsAssignableFrom(p));
+            foreach (var typ in types)
+            {
+                if (!typ.IsClass)
+                    continue;
+                Debug.Log(typ.Name);
+
+                MethodInfo[] methodInfos = typ.GetMethods(flags);
+                foreach (MethodInfo method in methodInfos)
+                {
+                    if (method.IsPublic && method.DeclaringType != typeof(object))
+                    {
+                        methods.Add(method);
+                    }
+                }
+            }
+            return methods.ToArray();
+        }
     }
 }
