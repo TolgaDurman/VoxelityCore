@@ -26,6 +26,21 @@ namespace Voxelity.AddOns.Editor
         {
             return Directory.GetDirectories(AddOnsFullPathImported);
         }
+        public static bool HasImportedPack(string packName)
+        {
+            return Directory.Exists(AddOnsFullPathImported + "/" + packName);
+        }
+        public static bool HasAnyImportedPack()
+        {
+            return GetImportedFolders().Length > 0;
+        }
+        public static bool HasImportedPath
+        {
+            get
+            {
+                return Directory.Exists(AddOnsFullPathImported);
+            }
+        }
         public static string[] GetAvailableFolderNames()
         {
             string[] directories = Directory.GetDirectories(AddOnsFullPath);
@@ -50,7 +65,7 @@ namespace Voxelity.AddOns.Editor
             AddOnInfo[] availableAddOns = new AddOnInfo[GetAvailableFolders().Length];
             for (int i = 0; i < availableAddOns.Length; i++)
             {
-                availableAddOns[i] = GetAddOnInfoAt(GetAvailableFolderNames()[i],GetAvailableFolders()[i]);
+                availableAddOns[i] = GetAddOnInfoAt(GetAvailableFolderNames()[i], GetAvailableFolders()[i]);
             }
             return availableAddOns;
         }
@@ -59,7 +74,7 @@ namespace Voxelity.AddOns.Editor
             AddOnInfo[] importedAddOns = new AddOnInfo[GetImportedFolders().Length];
             for (int i = 0; i < importedAddOns.Length; i++)
             {
-                importedAddOns[i] = GetAddOnInfoAt(GetImportedFolderNames()[i],GetImportedFolders()[i]);
+                importedAddOns[i] = GetAddOnInfoAt(GetImportedFolderNames()[i], GetImportedFolders()[i]);
             }
             return importedAddOns;
         }
@@ -91,9 +106,9 @@ namespace Voxelity.AddOns.Editor
         {
             return $"v{self.Major}.{self.Minor}.{self.Patch}";
         }
-        public static string GetDataInfoPath(string packName,string path)
+        public static string GetDataInfoPath(string packName, string path)
         {
-            return Path.Combine(path, packName+InfoName);
+            return Path.Combine(path, packName + InfoName);
         }
         public static void SetDataInfo(AddOnInfo info, string infoPath)
         {
@@ -104,14 +119,14 @@ namespace Voxelity.AddOns.Editor
             sw.Dispose();
             File.WriteAllText(infoPath, JsonConvert.SerializeObject(info, Formatting.Indented));
         }
-        public static bool AddOnInfoExistsAt(string packName,string path)
+        public static bool AddOnInfoExistsAt(string packName, string path)
         {
-            if (File.Exists(Path.Combine(path, (packName+InfoName)))) return true;
+            if (File.Exists(Path.Combine(path, (packName + InfoName)))) return true;
             return false;
         }
-        public static AddOnInfo GetAddOnInfoAt(string packName,string path)
+        public static AddOnInfo GetAddOnInfoAt(string packName, string path)
         {
-            var text = File.ReadAllText(Path.Combine(path,packName+ InfoName));
+            var text = File.ReadAllText(Path.Combine(path, packName + InfoName));
             return JsonConvert.DeserializeObject<AddOnInfo>(text);
         }
         public static string GetInfoToString(AddOnInfo info)
