@@ -37,6 +37,10 @@ namespace Voxelity.AddOns.Editor
         }
         private bool HasMatch(string[] values, string value)
         {
+            if(values == null || values.Length == 0)
+            {
+                return false;
+            }
             if (values.Contains(value)) return true;
             return false;
         }
