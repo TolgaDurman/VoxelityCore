@@ -52,6 +52,10 @@ namespace Voxelity.AddOns.Editor
         }
         public static string[] GetImportedFolderNames()
         {
+            if(!HasImportedPath)
+            {
+                return new string[0];
+            }
             string[] directories = Directory.GetDirectories(AddOnsFullPathImported);
             for (int i = 0; i < directories.Length; i++)
             {
