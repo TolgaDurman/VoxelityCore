@@ -116,7 +116,7 @@ namespace Voxelity.Editor
         }
         public static bool PathIsResourcesFolder(string path)
         {
-            string[] folders = path.Split("/");
+            string[] folders = path.Split('/');
             if (folders.Length <= 2) return false;
             if (folders[folders.Length - 2] == "Resources")
             {

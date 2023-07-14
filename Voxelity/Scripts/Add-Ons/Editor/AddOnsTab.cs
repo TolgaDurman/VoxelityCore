@@ -1,20 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using System.Linq;
 using UnityEngine;
 using Voxelity.Editor.Tabs;
 using Voxelity.Editor;
-using Voxelity.Extensions;
-using UnityEditor.PackageManager;
-using UnityEditor.PackageManager.Requests;
 
 namespace Voxelity.AddOns.Editor
 {
     public class AddOnsTab : Tab
     {
-        private TabData setting = new("Add-Ons", -1001, "Voxelity Add-Ons",EditorGUIUtility.IconContent("d_CustomTool").image);
+        private TabData setting = new TabData("Add-Ons", -1001, "Voxelity Add-Ons", EditorGUIUtility.IconContent("d_CustomTool").image);
         bool[] isInstalled;
         string[] addonFolders;
         string[] addonFoldersInProject;
