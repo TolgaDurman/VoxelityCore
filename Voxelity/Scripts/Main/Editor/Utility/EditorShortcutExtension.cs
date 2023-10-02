@@ -6,6 +6,7 @@ namespace Voxelity.Editor
 {
     public class EditorShortcutExtension
     {
+        #if UNITY_EDITOR_2021_1_OR_NEWER
         //Only works in one column layout.
         [OnOpenAsset]
         public static bool OnOpenAsset(int instanceId)
@@ -21,5 +22,6 @@ namespace Voxelity.Editor
             }
             return true;
         }
+        #endif
     }
 }
